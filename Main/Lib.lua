@@ -424,7 +424,7 @@ end
 
 				tab1.Name = text
 				tab1.Parent = Inner
-				tab1.BackgroundColor3 = COL3RGB(20,20,20)
+				tab1.BackgroundColor3 = COL3RGB(30,28,39)
 				tab1.BorderColor3 = COL3RGB(24,24,24)
 				tab1.BorderSizePixel = 0
 				tab1.Position = UDIM2(0, 0, 0, 30)
