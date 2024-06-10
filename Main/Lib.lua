@@ -389,7 +389,7 @@ end
 
 			Inner.Name = "Inner"
 			Inner.Parent = Section
-			Inner.BackgroundColor3 = COL3RGB(137, 30, 63)
+			Inner.BackgroundColor3 = COL3RGB(29, 27, 35)
 			Inner.BorderColor3 = COL3RGB(0, 0, 0)
 			Inner.BorderSizePixel = 0
 			Inner.Position = UDIM2(0, 1, 0, 1)
