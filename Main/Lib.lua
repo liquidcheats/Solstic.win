@@ -534,7 +534,7 @@ end
 						Drop.MidImage = "http://www.roblox.com/asset/?id=6724808282"
 						Drop.AutomaticCanvasSize = "Y"
 						Drop.ZIndex = 5
-						Drop.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+						Drop.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 						UIListLayout.Parent = Drop
 						UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -627,7 +627,7 @@ end
 										library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(255, 255, 255)})
 									else
 										INSERT(Element.value.Jumbobox, v)
-										library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(235, 152, 177)})
+										library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(119,0,255)})
 									end
 									updatetext()
 
@@ -898,7 +898,7 @@ end
 							Toggle.AutoButtonColor = false
 							Toggle.Font = Enum.Font.SourceSansSemibold
 							Toggle.Text = "Toggle"
-							Toggle.TextColor3 = COL3RGB(119, 0, 255)
+							Toggle.TextColor3 = COL3RGB(48, 113, 169)
 							Toggle.TextSize = 14.000
 							Toggle.ZIndex = 3
 
@@ -1105,7 +1105,7 @@ end
 
 						local function update()
 							if Element.value.Toggle then
-								tween = library:Tween(Color, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = COL3RGB(119, 0, 255)})
+								tween = library:Tween(Color, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = COL3RGB(48, 113, 169)})
 								library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(255, 255, 255)})
 							else
 								
@@ -1787,7 +1787,7 @@ end
 						Drop.TopImage = "http://www.roblox.com/asset/?id=6724808282"
 						Drop.AutomaticCanvasSize = "Y"
 						Drop.ZIndex = 5
-						Drop.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+						Drop.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 						UIListLayout.Parent = Drop
 						UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -1953,7 +1953,7 @@ end
 						Frame.BorderSizePixel = 0
 						Frame.Size = UDIM2(0.5, 0, 1, 0)
 
-						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, COL3RGB(235, 152, 177)), ColorSequenceKeypoint.new(1, COL3RGB(235, 152, 177))}
+						UIGradient.Color = ColorSequence.new{ColorSequenceKeypoint.new(0, COL3RGB(119,0,255)), ColorSequenceKeypoint.new(1, COL3RGB(119,0,255))}
 						UIGradient.Rotation = 90
 						UIGradient.Parent = Frame
 
@@ -2061,7 +2061,7 @@ end
 						end
 
 						Button_2.MouseButton1Down:Connect(function()
-							TextLabel.TextColor3 = COL3RGB(235, 152, 177)
+							TextLabel.TextColor3 = COL3RGB(119,0,255)
 							library:Tween(TextLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(200, 200, 200)})
 							callback()
 						end)
@@ -2247,7 +2247,7 @@ end
 					Drop.MidImage = "http://www.roblox.com/asset/?id=6724808282"
 					Drop.AutomaticCanvasSize = "Y"
 					Drop.ZIndex = 5
-					Drop.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+					Drop.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 					UIListLayout.Parent = Drop
 					UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -2350,7 +2350,7 @@ end
 							Frame.ScrollBarThickness = 4
 							Frame.TopImage = "http://www.roblox.com/asset/?id=6724808282"
 							Frame.AutomaticCanvasSize = "Y"
-							Frame.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+							Frame.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 							UIListLayout.Parent = Frame
 							UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -2387,7 +2387,7 @@ end
 							
 								if joll then
 									joll = false
-									TextLabel.TextColor3 = COL3RGB(235, 152, 177)
+									TextLabel.TextColor3 = COL3RGB(119,0,255)
 								end
 
 								Button.MouseButton1Down:Connect(function()
@@ -2483,7 +2483,7 @@ end
 									if bad:IsA("TextButton") then
 										bad.TextLabel.TextColor3 = COL3RGB(200, 200, 200)
 										if bad.Name == Element.value.Scroll[v.Name] then
-											bad.TextLabel.TextColor3 = COL3RGB(235, 152, 177)
+											bad.TextLabel.TextColor3 = COL3RGB(119,0,255)
 										end
 									end
 								end
@@ -2532,7 +2532,7 @@ end
 					Frame.ScrollBarThickness = 4
 					Frame.TopImage = "http://www.roblox.com/asset/?id=6724808282"
 					Frame.AutomaticCanvasSize = "Y"
-					Frame.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+					Frame.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 					UIListLayout.Parent = Frame
 					UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -2568,7 +2568,7 @@ end
 						TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 					
 						if first then first = false
-							TextLabel.TextColor3 = COL3RGB(235, 152, 177)
+							TextLabel.TextColor3 = COL3RGB(119,0,255)
 						end
 
 						Button.MouseButton1Down:Connect(function()
@@ -2679,7 +2679,7 @@ end
 						Drop.CanvasSize = Drop.CanvasSize + UDIM2(0, 0, 0, 17)
 					end
 					Drop.ZIndex = 5
-					Drop.ScrollBarImageColor3 = COL3RGB(235, 152, 177)
+					Drop.ScrollBarImageColor3 = COL3RGB(119,0,255)
 
 					UIListLayout.Parent = Drop
 					UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
@@ -2773,7 +2773,7 @@ end
 									library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(255, 255, 255)})
 								else
 									INSERT(Element.value.Jumbobox, v)
-									library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(235, 152, 177)})
+									library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(119,0,255)})
 								end
 								updatetext()
 
@@ -2799,7 +2799,7 @@ end
 						for i,v in pairs(Drop:GetChildren()) do
 							if v.Name ~= "UIListLayout" then
 								if TBLFIND(val.Jumbobox, v.Name) then
-									v.TextLabel.TextColor3 = COL3RGB(235, 152, 177)
+									v.TextLabel.TextColor3 = COL3RGB(119,0,255)
 								else
 									v.TextLabel.TextColor3 = COL3RGB(200, 200, 200)
 								end
@@ -3002,7 +3002,7 @@ end
 						Toggle.AutoButtonColor = false
 						Toggle.Font = Enum.Font.SourceSansSemibold
 						Toggle.Text = "Toggle"
-						Toggle.TextColor3 = COL3RGB(235, 152, 177)
+						Toggle.TextColor3 = COL3RGB(119,0,255)
 						Toggle.TextSize = 14.000
 						Toggle.ZIndex = 3
 
@@ -3025,7 +3025,7 @@ end
 										end
 									end
 									button.Font = Enum.Font.SourceSansBold
-									button.TextColor3 = COL3RGB(235, 152, 177)
+									button.TextColor3 = COL3RGB(119,0,255)
 									values[tabname][sectorname][text] = Element.value
 								end)
 								button.MouseEnter:Connect(function()
