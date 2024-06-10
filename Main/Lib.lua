@@ -180,7 +180,7 @@ end
 	Menu.Size = UDIM2(0, 600, 0, 610)
 	Menu.Image = "http://www.roblox.com/asset/?id=7265208537"
 	Menu.BorderSizePixel = 2.5
-	Menu.BorderColor3 = Color3.fromRGB(235,152,177)
+	Menu.BorderColor3 = Color3.fromRGB(29, 27, 35) -- old soft pink color235,152,177
 	
 	-- ondihpar
 
@@ -367,7 +367,7 @@ end
 
 			Section.Name = "Section"
 			Section.Parent = TabGui[side]
-			Section.BackgroundColor3 = COL3RGB(29, 27, 35)
+			Section.BackgroundColor3 = COL3RGB(137, 30, 63)
 			Section.BorderColor3 = COL3RGB(24,24,24)
 			Section.BorderSizePixel = 0
 			Section.Size = UDIM2(1, 0, 0, 33)
@@ -389,7 +389,7 @@ end
 
 			Inner.Name = "Inner"
 			Inner.Parent = Section
-			Inner.BackgroundColor3 = COL3RGB(20,20,20)
+			Inner.BackgroundColor3 = COL3RGB(137, 30, 63)
 			Inner.BorderColor3 = COL3RGB(0, 0, 0)
 			Inner.BorderSizePixel = 0
 			Inner.Position = UDIM2(0, 1, 0, 1)
@@ -1105,7 +1105,7 @@ end
 
 						local function update()
 							if Element.value.Toggle then
-								tween = library:Tween(Color, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = COL3RGB(48, 113, 169)})
+								tween = library:Tween(Color, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = COL3RGB(137, 30, 63)})
 								library:Tween(TextLabel, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {TextColor3 = COL3RGB(255, 255, 255)})
 							else
 								
