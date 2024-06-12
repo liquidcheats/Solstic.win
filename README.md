@@ -1,4 +1,4 @@
-# Purplebot
+# Solstic.xyz
 A Roblox UI Exploit inspired by Splix, BBot, Inoria
 
 Used in the PurpleBot script hub: 
