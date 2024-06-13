@@ -1,6 +1,6 @@
-local api = {}
+local API = {}
 
-function api:Draw(shape, visible)
+function API:Draw(shape, visible)
     if shape == "Square" or shape == "square" then
         local square = Drawing.new("Square")
         square.Visible = visible
