@@ -1,6 +1,6 @@
 local API = {}
 
-function API:Draw(shape, visible, pos)
+function API:Draw(shape, visible, pos, text)
     if shape == "Square" or shape == "square" then
         local square = Drawing.new("Square")
         square.Visible = visible
@@ -35,7 +35,7 @@ function API:Draw(shape, visible, pos)
         local text = Drawing.new("Text")
         text.Visible = visible
         text.Position = pos or Vector2.new(100, 100)
-        text.Text = "Hello World"
+        text.Text = text
         text.Color = Color3.fromRGB(255, 255, 255)
         text.Size = 20
         text.Transparency = 1
