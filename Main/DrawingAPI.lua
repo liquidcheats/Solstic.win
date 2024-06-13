@@ -35,7 +35,7 @@ function API:Draw(shape, visible, pos, text)
         local text = Drawing.new("Text")
         text.Visible = visible
         text.Position = pos or Vector2.new(100, 100)
-        text.Text = text
+        text.Text = text or "Hello World"
         text.Color = Color3.fromRGB(255, 255, 255)
         text.Size = 20
         text.Transparency = 1
