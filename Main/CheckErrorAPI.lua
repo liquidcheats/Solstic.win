@@ -1,4 +1,5 @@
 local Console = {}
+local library = {}
 
 function library:CheckErrors(error1, error2, eplayer, v1, v2)
 	local message = "Unexpected client behavior."
