@@ -41,3 +41,6 @@ function library:CheckErrors(error1, error2, eplayer, v1, v2)
 		end
 	end
 end
+
+function Console(clean, v1)
+end
