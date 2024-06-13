@@ -1,3 +1,5 @@
+local Console = {}
+
 function library:CheckErrors(error1, error2, eplayer, v1, v2)
 	local message = "Unexpected client behavior."
 	local echeck1, client = function(err1)
@@ -42,5 +44,22 @@ function library:CheckErrors(error1, error2, eplayer, v1, v2)
 	end
 end
 
-function Console(clean, v1)
+function Console:Handle(clean, v1)
+    local function clearConsole()
+        print("\n" .. string.rep("-", 50) .. "\n")
+    end
+
+    if clean then
+        clearConsole()
+    end
+
+    if v1 == "error" then
+        print("An error occurred.")
+    elseif v1 == "warning" then
+        print("Warning: Check your inputs.")
+    else
+        print("Message: " .. tostring(v1))
+    end
 end
+
+return Console
