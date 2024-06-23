@@ -131,7 +131,6 @@ function Library:Window(options)
     Body.BorderSizePixel = 0
     Body.Position = UDim2.new(0.465730786, 0, 0.5, 0)
     Body.Size = UDim2.new(0, 658, 0, 516)
-    Body.BackgroundTransparency = 0.63
 
     bodyCorner.CornerRadius = UDim.new(0, 4)
     bodyCorner.Name = "bodyCorner"
@@ -317,7 +316,7 @@ function Library:Window(options)
             tabIcon.Name = "tabIcon"
             tabIcon.Parent = tabButton
             tabIcon.BackgroundColor3 = Color3.fromRGB(234, 239, 245)
-            tabIcon.BackgroundTransparency = 0.000
+            tabIcon.BackgroundTransparency = 1.000
             tabIcon.BorderSizePixel = 0
             tabIcon.Position = UDim2.new(0.0408859849, 0, 0.133333355, 0)
             tabIcon.Size = UDim2.new(0, 21, 0, 21)
@@ -1243,6 +1242,10 @@ function Library:Window(options)
     end
 
     return tabsections
+end
+
+local function CreatePreview(type, lines, box, nametag, distance, weapon, hp, chams)
+
 end
 
 return Library
