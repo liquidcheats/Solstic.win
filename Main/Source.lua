@@ -1251,55 +1251,56 @@ function Library:Window(options)
     return tabsections
 end
 
-function MobileToggle(keybind, icon) 
+function MobileToggle(keybind, icon)
     local MobTogg = Instance.new("ScreenGui")
-local menu = Instance.new("Frame")
-local UICorner = Instance.new("UICorner")
-local Icon = Instance.new("ImageLabel")
-local IconButton = Instance.new("TextButton")
+    local menu = Instance.new("Frame")
+    local UICorner = Instance.new("UICorner")
+    local Icon = Instance.new("ImageLabel")
+    local IconButton = Instance.new("TextButton")
 
-MobTogg.Name = "MobTogg"
-MobTogg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-MobTogg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    MobTogg.Name = "MobTogg"
+    MobTogg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    MobTogg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
-menu.Name = "menu"
-menu.Parent = MobTogg
-menu.BackgroundColor3 = Color3.fromRGB(15, 15, 24)
-menu.BorderColor3 = Color3.fromRGB(0, 0, 0)
-menu.BorderSizePixel = 0
-menu.Position = UDim2.new(0.134796232, 0, 0.531400979, 0)
-menu.Size = UDim2.new(0, 44, 0, 45)
+    menu.Name = "menu"
+    menu.Parent = MobTogg
+    menu.BackgroundColor3 = Color3.fromRGB(15, 15, 24)
+    menu.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    menu.BorderSizePixel = 0
+    menu.Position = UDim2.new(0.134796232, 0, 0.531400979, 0)
+    menu.Size = UDim2.new(0, 44, 0, 45)
+    
+    Dragify(menu, MobTogg)
 
-UICorner.CornerRadius = UDim.new(0, 12)
-UICorner.Parent = menu
+    UICorner.CornerRadius = UDim.new(0, 12)
+    UICorner.Parent = menu
 
-Icon.Name = "Icon"
-Icon.Parent = menu
-Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Icon.BackgroundTransparency = 1.000
-Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Icon.BorderSizePixel = 0
-Icon.Size = UDim2.new(0, 44, 0, 45)
-Icon.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+    Icon.Name = "Icon"
+    Icon.Parent = menu
+    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.BackgroundTransparency = 1.000
+    Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Icon.BorderSizePixel = 0
+    Icon.Size = UDim2.new(0, 44, 0, 45)
+    Icon.Image = icon
 
-IconButton.Name = "IconButton"
-IconButton.Parent = menu
-IconButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-IconButton.BackgroundTransparency = 1.000
-IconButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-IconButton.BorderSizePixel = 0
-IconButton.Size = UDim2.new(0, 44, 0, 45)
-IconButton.Font = Enum.Font.SourceSans
-IconButton.Text = ""
-IconButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-IconButton.TextSize = 14.000
+    IconButton.Name = "IconButton"
+    IconButton.Parent = menu
+    IconButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    IconButton.BackgroundTransparency = 1.000
+    IconButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    IconButton.BorderSizePixel = 0
+    IconButton.Size = UDim2.new(0, 44, 0, 45)
+    IconButton.Font = Enum.Font.SourceSans
+    IconButton.Text = ""
+    IconButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+    IconButton.TextSize = 14.000
+    
+    IconButton.MouseButton1Click:Connect(function()
+        Library:Toggle() = not Library:Toggle()
+    end)
 
-local function REVZVC_fake_script()
-	local script = Instance.new('LocalScript', IconButton)
-
-	Library:Toggle()
-end
-coroutine.wrap(REVZVC_fake_script)()
+    coroutine.wrap(ToggleScript)()
 
     task.wait()
 end
