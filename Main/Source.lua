@@ -122,8 +122,8 @@ function Library:Window(options)
     local TopBar = Instance.new("Frame")
     local tbLine = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    local saveBtn = Instance.new("TextButton")
-    local saveLabel = Instance.new("ImageLabel")
+    --local saveBtn = Instance.new("TextButton")
+    --local saveLabel = Instance.new("ImageLabel")
 
     local allPages = Instance.new("Frame")
     local tabContainer = Instance.new("Frame")
@@ -189,7 +189,7 @@ function Library:Window(options)
     Title.TextSize = 28.000
     Title.TextWrapped = true
 
-    saveBtn.Name = "saveBtn"
+    --[[saveBtn.Name = "saveBtn"
     saveBtn.Parent = TopBar
     saveBtn.AnchorPoint = Vector2.new(0.5, 0.5)
     saveBtn.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
@@ -210,6 +210,7 @@ function Library:Window(options)
     saveLabel.Size = UDim2.new(0, 18, 0, 18)
     saveLabel.Image = "rbxassetid://7999984136"
     saveLabel.ImageColor3 = Color3.fromRGB(132, 146, 153)
+    ]]
 
     allPages.Name = "allPages"
     allPages.Parent = Body
@@ -1248,10 +1249,6 @@ function Library:Window(options)
     end
 
     return tabsections
-end
-
-local function CreatePreview(type, lines, box, nametag, distance, weapon, hp, chams)
-
 end
 
 return Library
