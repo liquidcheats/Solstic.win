@@ -1295,12 +1295,9 @@ function MobileToggle(keybind, icon)
     IconButton.Text = ""
     IconButton.TextColor3 = Color3.fromRGB(0, 0, 0)
     IconButton.TextSize = 14.000
-    
     IconButton.MouseButton1Click:Connect(function()
-        Library:Toggle() = not Library:Toggle()
+        Library:Toggle()
     end)
-
-    coroutine.wrap(ToggleScript)()
 
     task.wait()
 end
