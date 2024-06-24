@@ -189,7 +189,7 @@ function Library:Window(options)
     Title.TextSize = 28.000
     Title.TextWrapped = true
 
-    --[[saveBtn.Name = "saveBtn"
+    saveBtn.Name = "saveBtn"
     saveBtn.Parent = TopBar
     saveBtn.AnchorPoint = Vector2.new(0.5, 0.5)
     saveBtn.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
@@ -210,7 +210,6 @@ function Library:Window(options)
     saveLabel.Size = UDim2.new(0, 18, 0, 18)
     saveLabel.Image = "rbxassetid://7999984136"
     saveLabel.ImageColor3 = Color3.fromRGB(132, 146, 153)
-    ]]
 
     allPages.Name = "allPages"
     allPages.Parent = Body
