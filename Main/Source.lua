@@ -1251,7 +1251,7 @@ function Library:Window(options)
     return tabsections
 end
 
-if UserInputService.TouchEnabled then
+if input.TouchEnabled then
 	function MobileToggle(keybind, icon)
 	    local MobTogg = Instance.new("ScreenGui")
 	    local menu = Instance.new("Frame")
