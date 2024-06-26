@@ -1,6 +1,7 @@
 local Library = {}
 
 local NeverloseVersion = "v1.1A."
+getgenv().values = {}
 
 local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
@@ -1262,6 +1263,7 @@ function MobileToggle(keybind, icon)
 
     MobTogg.Name = "MobTogg"
     MobTogg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    MobTogg.ResetOnSpawn = false
     MobTogg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
     menu.Name = "menu"
@@ -1270,6 +1272,7 @@ function MobileToggle(keybind, icon)
     menu.BorderColor3 = Color3.fromRGB(0, 0, 0)
     menu.BorderSizePixel = 0
     menu.Position = UDim2.new(0.134796232, 0, 0.531400979, 0)
+    menu.ZIndex = 1000
     menu.Size = UDim2.new(0, 44, 0, 45)
 
     UICorner.CornerRadius = UDim.new(0, 12)
@@ -1286,6 +1289,7 @@ function MobileToggle(keybind, icon)
     Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Icon.BorderSizePixel = 0
     Icon.Size = UDim2.new(0, 44, 0, 45)
+    Icon.ZIndex = 1000
     Icon.Image = icon
 
     IconButton.Name = "IconButton"
@@ -1305,7 +1309,7 @@ function MobileToggle(keybind, icon)
 end
 
 function Keybind(v1, v2)
-	function AddBind(visible, mode)
+	function AddBind(title, value, mode, visible)
 		
 	end
 end
