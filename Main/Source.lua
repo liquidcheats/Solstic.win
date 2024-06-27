@@ -1,7 +1,7 @@
 local Library = {}
+getgenv().values = {}
 
 local NeverloseVersion = "v1.1A."
-getgenv().values = {}
 
 local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
@@ -14,12 +14,16 @@ end
 
 local themouse = game.Players.LocalPlayer:GetMouse()
 
-local function Notify(tt, tx)
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = tt,
-        Text = tx,
-        Duration = 5
-    })
+local function Notify(Title, Text, Duration)
+	game:GetService("StarterGui"):SetCore("SendNotification", { 
+		Title = Title,
+		Text = Text,
+		Duration = Duration
+	})
+end
+
+local function NotifyV2(Title, Text, Duration)
+	-- soon
 end
 
 local function Dragify(frame, parent)
@@ -190,7 +194,8 @@ function Library:Window(options)
     Title.TextSize = 28.000
     Title.TextWrapped = true
 
-    --[[saveBtn.Name = "saveBtn"
+    --[[
+    saveBtn.Name = "saveBtn"
     saveBtn.Parent = TopBar
     saveBtn.AnchorPoint = Vector2.new(0.5, 0.5)
     saveBtn.BackgroundColor3 = Color3.fromRGB(9, 8, 13)
@@ -1146,7 +1151,7 @@ function Library:Window(options)
                         D = true,
                         I = true,
                         O = true,
-                        Unknown = true
+                        --Unknown = true
                     }
 
                     local short = {
@@ -1157,7 +1162,9 @@ function Library:Window(options)
                         MouseButton1 = "M1",
                         MouseButton2 = "M2",
                         LeftAlt = "LAlt",
-                        RightAlt = "RAlt"
+                        RightAlt = "RAlt",
+                        Delete = "Del",
+                        Insert = "Ins"
                     }
 
                     local oldKey = options.default.Name
@@ -1255,14 +1262,14 @@ end
 function MobileToggle(keybind, icon)
     local MobTogg = Instance.new("ScreenGui")
     local menu = Instance.new("Frame")
-    Dragify(menu, MobTogg)
+    Dragify(menu, menu)
     local UICorner = Instance.new("UICorner")
     local UIStroke = Instance.new("UIStroke")
     local Icon = Instance.new("ImageLabel")
     local IconButton = Instance.new("TextButton")
 
     MobTogg.Name = "MobTogg"
-    MobTogg.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+    MobTogg.Parent = game.CoreGui
     MobTogg.ResetOnSpawn = false
     MobTogg.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
@@ -1306,9 +1313,15 @@ function MobileToggle(keybind, icon)
     IconButton.MouseButton1Click:Connect(function()
         Library:Toggle()
     end)
+    
+    return MobTogg
 end
 
-function Keybind(v1, v2)
+function SetWatermark(icon, name, visible)
+	
+end
+
+function Keybind(v1, v2)	
 	function AddBind(title, value, mode, visible)
 		
 	end
