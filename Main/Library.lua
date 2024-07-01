@@ -56,6 +56,42 @@ local function Dragify(frame, parent)
     end)
 end
 
+local function MobileDragify(frame, parent)
+    parent = parent or frame.Parent
+
+    local dragInput, dragStart, startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragStart = input.Position
+            startPos = frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragInput = nil
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    frame.InputEnded:Connect(function(input)
+        if input == dragInput then
+            dragInput = nil
+        end
+    end)
+end
+
 local function round(num, bracket)
     bracket = bracket or 1
     local a = math.floor(num/bracket + (math.sign(num) * 0.5)) * bracket
@@ -121,6 +157,7 @@ function Library:Window(options)
     local SG = Instance.new("ScreenGui")
     local Body = Instance.new("Frame")
     Dragify(Body, Body)
+    MobileDragify(Body, SG)
     local bodyCorner = Instance.new("UICorner")
 
     local SideBar = Instance.new("Frame")
@@ -1265,7 +1302,7 @@ end
 function MobileToggle(keybind, icon)
     local MobTogg = Instance.new("ScreenGui")
     local menu = Instance.new("Frame")
-    Dragify(menu, menu)
+    MobileDragify(menu, MobTogg)
     local UICorner = Instance.new("UICorner")
     local UIStroke = Instance.new("UIStroke")
     local Icon = Instance.new("ImageLabel")
