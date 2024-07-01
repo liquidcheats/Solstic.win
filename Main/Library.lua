@@ -56,39 +56,26 @@ local function Dragify(frame, parent)
     end)
 end
 
-local function MobileDragify(frame, parent)
-    parent = parent or frame.Parent
-
-    local dragInput, dragStart, startPos
-
-    local function update(input)
-        local delta = input.Position - dragStart
-        frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
+local function MobileDragify(frame)
+    local dragStart = nil
+    local startPos = nil
 
     frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        if input.UserInputType == Enum.UserInputType.Touch then
             dragStart = input.Position
             startPos = frame.Position
-
-            input.Changed:Connect(function()
-                if input.UserInputState == Enum.UserInputState.End then
-                    dragInput = nil
-                end
-            end)
         end
     end)
 
     frame.InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
-            dragInput = input
+        if dragStart then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
         end
     end)
 
     frame.InputEnded:Connect(function(input)
-        if input == dragInput then
-            dragInput = nil
-        end
+        dragStart = nil
     end)
 end
 
@@ -157,7 +144,7 @@ function Library:Window(options)
     local SG = Instance.new("ScreenGui")
     local Body = Instance.new("Frame")
     Dragify(Body, Body)
-    MobileDragify(Body, SG)
+    MobileDragify(Body)
     local bodyCorner = Instance.new("UICorner")
 
     local SideBar = Instance.new("Frame")
@@ -1302,7 +1289,7 @@ end
 function MobileToggle(keybind, icon)
     local MobTogg = Instance.new("ScreenGui")
     local menu = Instance.new("Frame")
-    MobileDragify(menu, MobTogg)
+    MobileDragify(menu)
     local UICorner = Instance.new("UICorner")
     local UIStroke = Instance.new("UIStroke")
     local Icon = Instance.new("ImageLabel")
