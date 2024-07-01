@@ -14,6 +14,7 @@ local Window = Library:Window({ text = "solstic.win" })
 
 local cfglocation = "solsticiscfg/"
 makefolder("solsticiscfg")
+makefolder(cfglocation .. game.GameId)
 
 -- Toggle UI: Library:Toggle()
 
