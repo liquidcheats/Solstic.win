@@ -1,5 +1,4 @@
 local Library = {}
-getgenv().values = {}
 
 local NeverloseVersion = "v1.1A."
 
@@ -20,10 +19,6 @@ local function Notify(Title, Text, Duration)
 		Text = Text,
 		Duration = Duration
 	})
-end
-
-local function NotifyV2(Title, Text, Duration)
-	-- soon
 end
 
 local function Dragify(frame, parent)
@@ -100,16 +95,24 @@ local function clickEffect(options)
 end
 
 function Library:Toggle(value)
-    local coreGui = game:GetService("CoreGui")
-    local neverloseGui = coreGui:FindFirstChild("Neverlose")
-    if neverloseGui == nil then return end
+    local CoreGui = game:GetService("CoreGui")
+    local NeverloseGui = CoreGui:FindFirstChild("Neverlose")
+    if NeverloseGui == nil then return end
     local enabled
     if type(value) == "boolean" then
         enabled = value
     else
-        enabled = neverloseGui.Enabled
+        enabled = NeverloseGui.Enabled
     end
-    neverloseGui.Enabled = not enabled
+    NeverloseGui.Enabled = not enabled
+end
+
+function Library:Unload()
+    local CoreGui = game:GetService("CoreGui")
+    local NeverloseGui = CoreGui:FindFirstChild("Neverlose")
+    if NeverloseGui then
+        NeverloseGui:Destroy()
+    end
 end
 
 function Library:Window(options)
@@ -1317,12 +1320,8 @@ function MobileToggle(keybind, icon)
     return MobTogg
 end
 
-function SetWatermark(icon, name, visible)
-	
-end
-
-function Keybind(v1, v2)	
-	function AddBind(title, value, mode, visible)
+function MakeKeybind(name, pos)
+	function AddBind(title, value, mode)
 		
 	end
 end
