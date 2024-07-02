@@ -9,12 +9,11 @@ local Mouse = LocalPlayer:GetMouse()
 local Camera = workspace.CurrentCamera
 local Client = LocalPlayer.PlayerGui:FindFirstChild("Client") and getsenv(LocalPlayer.PlayerGui.Client) or nil
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/liquidcheats/Solstic.win/main/Library.lua"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/liquidcheats/Solstic.win/main/Main/Library.lua"))()
 local Window = Library:Window({ text = "solstic.win" })
 
 local cfglocation = "solsticiscfg/"
 makefolder("solsticiscfg")
-makefolder(cfglocation .. game.GameId)
 
 -- Toggle UI: Library:Toggle()
 
@@ -106,6 +105,8 @@ local MiscellaneousMain = {
 	BypassFallDmg = false,
 	AntiSpectate = false,
 	InfiniteCash = false,
+	
+	NoFilter = false, -- most easiest way to be ban
 }
 
 -- Toggle
@@ -499,6 +500,58 @@ Movement:Toggle({
     end
 })
 
+local Chat = Tabs.MiscMain:Section({ text = "Chat" })
+
+Chat:Toggle({
+    text = "Chat spam",
+    state = false,
+    callback = function(tbl)
+        
+    end
+})
+
+Chat:Dropdown({
+    text = "type",
+    list = {"Standard", "Toxic", "Solstic.win"},
+    default = "Standard",
+    callback = function(tbl)
+        
+    end
+})
+
+Chat:Toggle({
+    text = "Speed (ms)",
+    min = 150,
+    max = 1000,
+    callback = function(tbl)
+        
+    end
+})
+
+Chat:Toggle({
+    text = "Kill say",
+    state = false,
+    callback = function(tbl)
+        
+    end
+})
+
+Chat:Textbox({
+	text = "message",
+	value = "message",
+	callback = function(tbl)
+	
+	end
+})
+
+Chat:Toggle({
+    text = "No Filter",
+    state = false,
+    callback = function(tbl)
+        MiscellaneousMain.NoFilter = tbl
+    end
+})
+
 local Other = Tabs.MiscMain:Section({ text = "Other" })
 
 local Cilent = Tabs.MiscMain:Section({ text = "Cilent" })
@@ -665,11 +718,20 @@ mt.__namecall = function(self, ...)
         elseif self.Name == "ControlTurn" and not checkcaller() then
             return
         end
-		if self.Name == "ReplicateCamera" and MiscellaneousMain.AntiSpectate then
-			args[1] = CFrame.new()
-		end
+        if self.Name == "ReplicateCamera" and MiscellaneousMain.AntiSpectate then
+            args[1] = CFrame.new()
+        end
+        if method == "InvokeServer" then
+            if self.Name == "Moolah" then
+                return
+            elseif self.Name == "Hugh" then
+                return
+            elseif self.Name == "Filter" and MiscellaneousMain.NoFilter then
+                return args[1]
+            end
+        end
     end
-    
+
     return oldNamecall(self, unpack(args))
 end
 setreadonly(mt, true)
@@ -680,4 +742,4 @@ LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
 end)
 if UserInputService.TouchEnabled then 
 	MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
-end 
+end
