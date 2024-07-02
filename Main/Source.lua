@@ -736,7 +736,7 @@ mt.__namecall = function(self, ...)
 end
 setreadonly(mt, true)
 LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
-    if MiscellaneousMain.InfiniteCash and LocalPlayer.Cash.Value ~= 8000 then
+    if MiscellaneousMain.InfiniteCash then
         LocalPlayer.Cash.Value = 8000
     end
 end)
