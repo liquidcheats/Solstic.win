@@ -27,86 +27,86 @@ local Tabs = { -- Default: rbxassetid://7999345313
     Ragebot = TabsSection.Aimbot:Tab({ text = "Ragebot", icon = "rbxassetid://8547236654" }),
     AntiAim = TabsSection.Aimbot:Tab({ text = "Anti Aim", icon = "rbxassetid://8547310764" }),
     Legitbot = TabsSection.Aimbot:Tab({ text = "Legitbot", icon = "rbxassetid://8547249956" }),
-    
+
     Players = TabsSection.ESP:Tab({ text = "Players", icon = "rbxassetid://7999345313" }),
     World = TabsSection.ESP:Tab({ text = "World", icon = "rbxassetid://7999345313" }),
     Inventory = TabsSection.ESP:Tab({ text = "Inventory", icon = "rbxassetid://8547258459" }),
-    
+
     MiscMain = TabsSection.Misc:Tab({ text = "Main", icon = "rbxassetid://7999345313" }),
     Config = TabsSection.Misc:Tab({ text = "Configs", icon = "rbxassetid://7999345313" }),
 }
 
 local Ragebot = {
-	Enabled = false,
-	SilentAim = false,
-	FOV = 100,
-	OverrideResolver = false,
-	
-	Hideshots = false,
-	DoubleTap = false,
-	KillAll = nil,
-	
-	HitChance = 0,
-	StaticPointScale = false,
-	SafePoints = false,
-	ForceConditions = "None",
-	HeadSafetyifLethal = false,
-	BodyAim = "None",
-	Maxmisses = 0,
-	
-	Visible = 0,
-	Autowall = 0,
-	AutoStop = false,
-	Conditions = "None",
-	AutoScope = false,
+        Enabled = false,
+        SilentAim = false,
+        FOV = 100,
+        OverrideResolver = false,
+
+        Hideshots = false,
+        DoubleTap = false,
+        KillAll = nil,
+
+        HitChance = 0,
+        StaticPointScale = false,
+        SafePoints = false,
+        ForceConditions = "None",
+        HeadSafetyifLethal = false,
+        BodyAim = "None",
+        Maxmisses = 0,
+
+        Visible = 0,
+        Autowall = 0,
+        AutoStop = false,
+        Conditions = "None",
+        AutoScope = false,
 }
 
 local AntiAim = {
-	Enabled = false,
-	Spinbot = false,
-	SpinSpeed = 10,
-	Pitch = "Down",
-	YawBase = "None",
-	YawAdd = 0,
-	YawMod = "None",
-	Degree = 0,
+        Enabled = false,
+        Spinbot = false,
+        SpinSpeed = 10,
+        Pitch = "Down",
+        YawBase = "None",
+        YawAdd = 0,
+        YawMod = "None",
+        Degree = 0,
 }
 
 local Legitbot = {
-	
+
 }
 
 local Players = {
-	
+
 }
 
 local World = {
-	OverrideZoom = false,
-	ForceThirdperson = false,
-	VisualRecoil = false,
-	Removals = "None",
+        OverrideZoom = false,
+        ForceThirdperson = false,
+        VisualRecoil = false,
+        Removals = "None",
 }
 
 local Inventory = {
-	
+
 }
 
 local MiscellaneousMain = {
-	BunnyHop = false,
-	AirStrafe = false,
-	AirDuck = false,
-	BHopSpeed = 0,
-	StrafeAissist = false,
-	InfiniteDuck = false,
-	EdgeJump = false,
-	BlockBot = false,
-	
-	BypassFireDmg = false,
-	BypassFallDmg = false,
-	AntiSpectate = false,
-	InfiniteCash = false,
-	
-	NoFilter = false, -- most easiest way to be ban
+        BunnyHop = false,
+        AirStrafe = false,
+        AirDuck = false,
+        BHopSpeed = 0,
+        StrafeAissist = false,
+        InfiniteDuck = false,
+        EdgeJump = false,
+        BlockBot = false,
+
+        BypassFireDmg = false,
+        BypassFallDmg = false,
+        AntiSpectate = false,
+        InfiniteCash = false,
+
+        NoFilter = false, -- most easiest way to be ban
 }
 
 -- Toggle
@@ -506,7 +506,7 @@ Chat:Toggle({
     text = "Chat spam",
     state = false,
     callback = function(tbl)
-        
+
     end
 })
 
@@ -515,7 +515,7 @@ Chat:Dropdown({
     list = {"Standard", "Toxic", "Solstic.win"},
     default = "Standard",
     callback = function(tbl)
-        
+
     end
 })
 
@@ -524,7 +524,7 @@ Chat:Toggle({
     min = 150,
     max = 1000,
     callback = function(tbl)
-        
+
     end
 })
 
@@ -532,16 +532,16 @@ Chat:Toggle({
     text = "Kill say",
     state = false,
     callback = function(tbl)
-        
+
     end
 })
 
 Chat:Textbox({
-	text = "message",
-	value = "message",
-	callback = function(tbl)
-	
-	end
+        text = "message",
+        value = "message",
+        callback = function(tbl)
+
+        end
 })
 
 Chat:Toggle({
@@ -584,8 +584,8 @@ Cilent:Toggle({
     text = "Infinite Cash",
     state = false,
     callback = function(tbl)
-		LocalPlayer.Cash.Value = 8000
-		MiscellaneousMain.InfiniteCash = tbl
+                LocalPlayer.Cash.Value = 8000
+                MiscellaneousMain.InfiniteCash = tbl
     end
 })
 
@@ -595,7 +595,7 @@ Buybot:Toggle({
     text = "Enable BuyBot",
     state = false,
     callback = function(tbl)
-        
+
     end
 })
 
@@ -604,7 +604,7 @@ Buybot:Dropdown({
     list = {""},
     default = "Off",
     callback = function(tbl)
-        
+
     end
 })
 
@@ -613,7 +613,7 @@ Buybot:Dropdown({
     list = {""},
     default = "Off",
     callback = function(tbl)
-        
+
     end
 })
 
@@ -622,7 +622,7 @@ Buybot:Dropdown({
     list = {""},
     default = "Off",
     callback = function(tbl)
-        
+
     end
 })
 
@@ -651,7 +651,7 @@ UIVisibility:Toggle({
     text = "Watermark",
     default = Enum.KeyCode.H,
     callback = function(tbl)
-        
+	    Watermark.Enabled = tbl
     end
 })
 
@@ -659,7 +659,7 @@ UIVisibility:Toggle({
     text = "Keybind Lists",
     default = Enum.KeyCode.H,
     callback = function(tbl)
-        
+        Keybind.Enabled = tbl
     end
 })
 
@@ -701,19 +701,19 @@ RunService.RenderStepped:Connect(function()
         end
     end
     if MiscellaneousMain.InfiniteDuck then
-		Client.crouchcooldown = 0
-	end
+                Client.crouchcooldown = 0
+        end
     if MiscellaneousMain.EdgeJump then
-		if LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
-			coroutine.wrap(function()
-				RunService.RenderStepped:Wait()
-				if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
-					LocalPlayer.Character.Humanoid:ChangeState("Jumping")
-				end
-			end)()
-		end
-	end
-	task.wait()
+                if LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
+                        coroutine.wrap(function()
+                                RunService.RenderStepped:Wait()
+                                if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
+                                        LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+                                end
+                        end)()
+                end
+        end
+        task.wait()
 end)
 local mt = getrawmetatable(game)
 local oldNamecall = mt.__namecall
@@ -759,5 +759,5 @@ LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
     end
 end)
 if UserInputService.TouchEnabled then 
-	MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
+    MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
 end
