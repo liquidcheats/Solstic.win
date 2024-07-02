@@ -14,11 +14,11 @@ end
 local themouse = game.Players.LocalPlayer:GetMouse()
 
 local function Notify(Title, Text, Duration)
-	game:GetService("StarterGui"):SetCore("SendNotification", { 
-		Title = Title,
-		Text = Text,
-		Duration = Duration
-	})
+        game:GetService("StarterGui"):SetCore("SendNotification", { 
+                Title = Title,
+                Text = Text,
+                Duration = Duration
+        })
 end
 
 local function Dragify(frame, parent)
@@ -154,8 +154,8 @@ function Library:Window(options)
     local TopBar = Instance.new("Frame")
     local tbLine = Instance.new("Frame")
     local Title = Instance.new("TextLabel")
-    --local saveBtn = Instance.new("TextButton")
-    --local saveLabel = Instance.new("ImageLabel")
+    local saveBtn = Instance.new("TextButton")
+    local saveLabel = Instance.new("ImageLabel")
 
     local allPages = Instance.new("Frame")
     local tabContainer = Instance.new("Frame")
@@ -1311,7 +1311,7 @@ function MobileToggle(keybind, icon)
 
     UICorner.CornerRadius = UDim.new(0, 12)
     UICorner.Parent = menu
-    
+
     UIStroke.Thickness = 1.24
     UIStroke.Color = Color3.fromRGB(144, 144, 144)
     UIStroke.Parent = menu
@@ -1340,128 +1340,128 @@ function MobileToggle(keybind, icon)
     IconButton.MouseButton1Click:Connect(function()
         Library:Toggle()
     end)
-    
+
     return MobTogg
 end
 
-function Notify(text, content, icon, duration)
-	local Notify = Instance.new("ScreenGui")
-	local List = Instance.new("Frame")
-	local UIListLayout = Instance.new("UIListLayout")
-	local UISizeConstraint = Instance.new("UISizeConstraint")
-	local notifygui = Instance.new("Frame")
-	local UICorner = Instance.new("UICorner")
-	local title = Instance.new("TextLabel")
-	local UIPadding = Instance.new("UIPadding")
-	local description = Instance.new("TextLabel")
-	local UIPadding_2 = Instance.new("UIPadding")
-	local time = Instance.new("Frame")
-	local ImageLabel = Instance.new("ImageLabel")
-	local TweenService = game:GetService("TweenService")
-	
-	Notify.Name = "Notify"
-	Notify.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-	Notify.ResetOnSpawn = false
-	Notify.Enabled = true
-	
-	List.Name = "List"
-	List.Parent = Notify
-	List.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	List.BackgroundTransparency = 1
-	List.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	List.BorderSizePixel = 0
-	List.Position = UDim2.new(1, -0, 1, -10)
-	List.AnchorPoint = Vector2.new(1, 1)
-	List.Size = UDim2.new(0, 250, 0, 200)
-	
-	UIListLayout.Parent = List
-	UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-	UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-	
-	UISizeConstraint.Parent = List
-	
-	notifygui.Name = "notifygui"
-	notifygui.Parent = List
-	notifygui.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
-	notifygui.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	notifygui.BorderSizePixel = 0
-	notifygui.Position = UDim2.new(0, 0, 0.860310376, 0)
-	notifygui.Size = UDim2.new(0, 237, 0, 63)
-	
-	UICorner.CornerRadius = UDim.new(0, 5)
-	UICorner.Parent = notifygui
-	
-	title.Name = "title"
-	title.Parent = notifygui
-	title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	title.BackgroundTransparency = 1.000
-	title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	title.BorderSizePixel = 0
-	title.Position = UDim2.new(0.209841445, 0, 0, 0)
-	title.Size = UDim2.new(0, 187, 0, 21)
-	title.Font = Enum.Font.SourceSans
-	title.Text = text or "Notification"
-	title.TextColor3 = Color3.fromRGB(255, 255, 255)
-	title.TextSize = 17.000
-	title.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-	title.TextXAlignment = Enum.TextXAlignment.Left
-	
-	UIPadding.Parent = title
-	UIPadding.PaddingBottom = UDim.new(0, 5)
-	UIPadding.PaddingLeft = UDim.new(0, 5)
-	UIPadding.PaddingRight = UDim.new(0, 5)
-	UIPadding.PaddingTop = UDim.new(0, 5)
-	
-	description.Name = "description"
-	description.Parent = notifygui
-	description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	description.BackgroundTransparency = 1.000
-	description.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	description.BorderSizePixel = 0
-	description.Position = UDim2.new(0.209841445, 0, 0.333333343, 0)
-	description.Size = UDim2.new(0, 187, 0, 42)
-	description.Font = Enum.Font.SourceSans
-	description.Text = content or "Hello World"
-	description.TextColor3 = Color3.fromRGB(207, 207, 207)
-	description.TextSize = 15.000
-	description.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-	description.TextWrapped = true
-	description.TextXAlignment = Enum.TextXAlignment.Left
-	description.TextYAlignment = Enum.TextYAlignment.Top
-	
-	UIPadding_2.Parent = description
-	UIPadding_2.PaddingBottom = UDim.new(0, 5)
-	UIPadding_2.PaddingLeft = UDim.new(0, 5)
-	UIPadding_2.PaddingRight = UDim.new(0, 5)
-	UIPadding_2.PaddingTop = UDim.new(0, 5)
-	
-	time.Name = "time"
-	time.Parent = notifygui
-	time.BackgroundColor3 = Color3.fromRGB(43, 154, 198)
-	time.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	time.BorderSizePixel = 0
-	time.Position = UDim2.new(0, 0, 0.96825397, 0)
-	time.Size = UDim2.new(1, 0, 0, 2)
-	
-	ImageLabel.Parent = notifygui
-	ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	ImageLabel.BackgroundTransparency = 1.000
-	ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	ImageLabel.BorderSizePixel = 0
-	ImageLabel.Position = UDim2.new(0.0421940945, 0, 0.253968269, 0)
-	ImageLabel.Size = UDim2.new(0, 33, 0, 30)
-	ImageLabel.Image = icon or "rbxassetid://10709775704"
-	ImageLabel.ImageColor3 = Color3.fromRGB(43, 154, 198)
-	ImageLabel.ScaleType = Enum.ScaleType.Fit
+function NotifyV2(text, content, icon, duration)
+        local Notify = Instance.new("ScreenGui")
+        local List = Instance.new("Frame")
+        local UIListLayout = Instance.new("UIListLayout")
+        local UISizeConstraint = Instance.new("UISizeConstraint")
+        local notifygui = Instance.new("Frame")
+        local UICorner = Instance.new("UICorner")
+        local title = Instance.new("TextLabel")
+        local UIPadding = Instance.new("UIPadding")
+        local description = Instance.new("TextLabel")
+        local UIPadding_2 = Instance.new("UIPadding")
+        local time = Instance.new("Frame")
+        local ImageLabel = Instance.new("ImageLabel")
+        local TweenService = game:GetService("TweenService")
 
-	local tweenInfo = TweenInfo.new(duration or 5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
-	local goal = { Size = UDim2.new(0, 0, 0, 2) }
-	local tween = TweenService:Create(time, tweenInfo, goal)
-	tween:Play()
+        Notify.Name = "Notify"
+        Notify.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+        Notify.ResetOnSpawn = false
+        Notify.Enabled = true
 
-	delay(duration or 5, function()
-		Notify:Destroy()
-	end)
+        List.Name = "List"
+        List.Parent = Notify
+        List.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        List.BackgroundTransparency = 1
+        List.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        List.BorderSizePixel = 0
+        List.Position = UDim2.new(1, -0, 1, -10)
+        List.AnchorPoint = Vector2.new(1, 1)
+        List.Size = UDim2.new(0, 250, 0, 200)
+
+        UIListLayout.Parent = List
+        UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+        UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
+
+        UISizeConstraint.Parent = List
+
+        notifygui.Name = "notifygui"
+        notifygui.Parent = List
+        notifygui.BackgroundColor3 = Color3.fromRGB(24, 24, 24)
+        notifygui.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        notifygui.BorderSizePixel = 0
+        notifygui.Position = UDim2.new(0, 0, 0.860310376, 0)
+        notifygui.Size = UDim2.new(0, 237, 0, 63)
+
+        UICorner.CornerRadius = UDim.new(0, 5)
+        UICorner.Parent = notifygui
+
+        title.Name = "title"
+        title.Parent = notifygui
+        title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        title.BackgroundTransparency = 1.000
+        title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        title.BorderSizePixel = 0
+        title.Position = UDim2.new(0.209841445, 0, 0, 0)
+        title.Size = UDim2.new(0, 187, 0, 21)
+        title.Font = Enum.Font.SourceSans
+        title.Text = text or "Notification"
+        title.TextColor3 = Color3.fromRGB(255, 255, 255)
+        title.TextSize = 17.000
+        title.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+        title.TextXAlignment = Enum.TextXAlignment.Left
+
+        UIPadding.Parent = title
+        UIPadding.PaddingBottom = UDim.new(0, 5)
+        UIPadding.PaddingLeft = UDim.new(0, 5)
+        UIPadding.PaddingRight = UDim.new(0, 5)
+        UIPadding.PaddingTop = UDim.new(0, 5)
+
+        description.Name = "description"
+        description.Parent = notifygui
+        description.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        description.BackgroundTransparency = 1.000
+        description.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        description.BorderSizePixel = 0
+        description.Position = UDim2.new(0.209841445, 0, 0.333333343, 0)
+        description.Size = UDim2.new(0, 187, 0, 42)
+        description.Font = Enum.Font.SourceSans
+        description.Text = content or "Hello World"
+        description.TextColor3 = Color3.fromRGB(207, 207, 207)
+        description.TextSize = 15.000
+        description.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+        description.TextWrapped = true
+        description.TextXAlignment = Enum.TextXAlignment.Left
+        description.TextYAlignment = Enum.TextYAlignment.Top
+
+        UIPadding_2.Parent = description
+        UIPadding_2.PaddingBottom = UDim.new(0, 5)
+        UIPadding_2.PaddingLeft = UDim.new(0, 5)
+        UIPadding_2.PaddingRight = UDim.new(0, 5)
+        UIPadding_2.PaddingTop = UDim.new(0, 5)
+
+        time.Name = "time"
+        time.Parent = notifygui
+        time.BackgroundColor3 = Color3.fromRGB(43, 154, 198)
+        time.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        time.BorderSizePixel = 0
+        time.Position = UDim2.new(0, 0, 0.96825397, 0)
+        time.Size = UDim2.new(1, 0, 0, 2)
+
+        ImageLabel.Parent = notifygui
+        ImageLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+        ImageLabel.BackgroundTransparency = 1.000
+        ImageLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+        ImageLabel.BorderSizePixel = 0
+        ImageLabel.Position = UDim2.new(0.0421940945, 0, 0.253968269, 0)
+        ImageLabel.Size = UDim2.new(0, 33, 0, 30)
+        ImageLabel.Image = icon or "rbxassetid://10709775704"
+        ImageLabel.ImageColor3 = Color3.fromRGB(43, 154, 198)
+        ImageLabel.ScaleType = Enum.ScaleType.Fit
+
+        local tweenInfo = TweenInfo.new(duration or 5, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+        local goal = { Size = UDim2.new(0, 0, 0, 2) }
+        local tween = TweenService:Create(time, tweenInfo, goal)
+        tween:Play()
+
+        delay(duration or 5, function()
+                Notify:Destroy()
+        end)
 end
 
 function MakeKeybind(name, pos)
@@ -1474,11 +1474,11 @@ function MakeKeybind(name, pos)
     local Line = Instance.new("Frame")
     local KeySector = Instance.new("Frame")
     local UIListLayout = Instance.new("UIListLayout")
-    
+
     Keybind.Name = "Keybind"
     Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     Keybind.ResetOnSpawn = false
-    
+
     KeybindBody.Name = "KeybindBody"
     KeybindBody.Parent = Keybind
     KeybindBody.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
@@ -1486,7 +1486,7 @@ function MakeKeybind(name, pos)
     KeybindBody.BorderSizePixel = 0
     KeybindBody.Position = pos
     KeybindBody.Size = UDim2.new(0, 179, 0, 188)
-    
+
     Title.Name = "Title"
     Title.Parent = KeybindBody
     Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1500,7 +1500,7 @@ function MakeKeybind(name, pos)
     Title.TextColor3 = Color3.fromRGB(255, 255, 255)
     Title.TextSize = 17.000
     Title.TextWrapped = true
-    
+
     Icon.Name = "Icon"
     Icon.Parent = KeybindBody
     Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1511,14 +1511,14 @@ function MakeKeybind(name, pos)
     Icon.Image = "rbxassetid://10709759610"
     Icon.ImageColor3 = Color3.fromRGB(43, 154, 198)
     Icon.ScaleType = Enum.ScaleType.Fit
-    
+
     Line.Name = "Line"
     Line.Parent = KeybindBody
     Line.BackgroundColor3 = Color3.fromRGB(43, 154, 198)
     Line.BorderColor3 = Color3.fromRGB(0, 0, 0)
     Line.BorderSizePixel = 0
     Line.Size = UDim2.new(0, 179, 0, -2)
-    
+
     KeySector.Name = "KeySector"
     KeySector.Parent = KeybindBody
     KeySector.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1527,7 +1527,7 @@ function MakeKeybind(name, pos)
     KeySector.BorderSizePixel = 0
     KeySector.Position = UDim2.new(0, 0, 0.144185811, 0)
     KeySector.Size = UDim2.new(0, 179, 0, 160)
-    
+
     UIListLayout.Parent = KeySector
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
@@ -1537,7 +1537,7 @@ end
 function AddBind(keySector, title, value, mode)
     local ExampleKeybind = Instance.new("TextLabel")
     local UIPadding = Instance.new("UIPadding")
-    
+
     ExampleKeybind.Name = title
     ExampleKeybind.Parent = keySector
     ExampleKeybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -1551,7 +1551,7 @@ function AddBind(keySector, title, value, mode)
     ExampleKeybind.TextSize = 14.000
     ExampleKeybind.TextWrapped = true
     ExampleKeybind.TextXAlignment = Enum.TextXAlignment.Left
-    
+
     UIPadding.Parent = ExampleKeybind
     UIPadding.PaddingBottom = UDim.new(0, 5)
     UIPadding.PaddingLeft = UDim.new(0, 5)
@@ -1585,67 +1585,67 @@ function AddBind(keySector, title, value, mode)
 end
 
 function CreateWatermark(enabled, icon, text)
-	local Watermark = Instance.new("ScreenGui")
-	local WatermarkBody = Instance.new("Frame")
+    local Watermark = Instance.new("ScreenGui")
+    local WatermarkBody = Instance.new("Frame")
     Dragify(WatermarkBody, WatermarkBody)
     MobileDragify(WatermarkBody)
-	local Line = Instance.new("Frame")
-	local Items = Instance.new("TextLabel")
-	local UIPadding = Instance.new("UIPadding")
-	local Icon = Instance.new("ImageLabel")
-	
-	Watermark.Name = "Watermark"
-	Watermark.Parent = game.CoreGui 
-	Watermark.ResetOnSpawn = false
-	Watermark.Enabled = enabled
-	
-	WatermarkBody.Name = "WatermarkBody"
-	WatermarkBody.Parent = Watermark
-	WatermarkBody.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
-	WatermarkBody.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	WatermarkBody.BorderSizePixel = 0
-	WatermarkBody.Position = UDim2.new(0.010449321, 0, 0.192028984, 0)
-	WatermarkBody.Size = UDim2.new(0, 230, 0, 25)
-	
-	Line.Name = "Line"
-	Line.Parent = WatermarkBody
-	Line.BackgroundColor3 = Color3.fromRGB(43, 154, 198)
-	Line.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Line.BorderSizePixel = 0
-	Line.Size = UDim2.new(0, 230, 0, -2)
-	
-	Items.Name = "Items"
-	Items.Parent = WatermarkBody
-	Items.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Items.BackgroundTransparency = 1.000
-	Items.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Items.BorderSizePixel = 0
-	Items.Position = UDim2.new(0.12608695, 0, 0, 0)
-	Items.Size = UDim2.new(0, 166, 0, 25)
-	Items.Font = Enum.Font.SourceSans
-	Items.Text = text or "Watermark"
-	Items.TextColor3 = Color3.fromRGB(255, 255, 255)
-	Items.TextSize = 15.000
-	Items.TextXAlignment = Enum.TextXAlignment.Left
-	
-	UIPadding.Parent = Items
-	UIPadding.PaddingBottom = UDim.new(0, 5)
-	UIPadding.PaddingLeft = UDim.new(0, 5)
-	UIPadding.PaddingRight = UDim.new(0, 5)
-	UIPadding.PaddingTop = UDim.new(0, 5)
-	
-	Icon.Name = "Icon"
-	Icon.Parent = WatermarkBody
-	Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-	Icon.BackgroundTransparency = 1.000
-	Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-	Icon.BorderSizePixel = 0
-	Icon.Position = UDim2.new(-0.0521739125, 0, -0.600000024, 0)
-	Icon.Size = UDim2.new(0, 60, 0, 54)
-	Icon.Image = icon or "http://www.roblox.com/asset/?id=18190092646"
-	Icon.ScaleType = Enum.ScaleType.Fit
-	
-	return Watermark
+    local Line = Instance.new("Frame")
+    local Items = Instance.new("TextLabel")
+    local UIPadding = Instance.new("UIPadding")
+    local Icon = Instance.new("ImageLabel")
+
+    Watermark.Name = "Watermark"
+    Watermark.Parent = game.CoreGui 
+    Watermark.ResetOnSpawn = false
+    Watermark.Enabled = enabled
+
+    WatermarkBody.Name = "WatermarkBody"
+    WatermarkBody.Parent = Watermark
+    WatermarkBody.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+    WatermarkBody.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    WatermarkBody.BorderSizePixel = 0
+    WatermarkBody.Position = UDim2.new(0.010449321, 0, 0.192028984, 0)
+    WatermarkBody.Size = UDim2.new(0, 230, 0, 25)
+
+    Line.Name = "Line"
+    Line.Parent = WatermarkBody
+    Line.BackgroundColor3 = Color3.fromRGB(43, 154, 198)
+    Line.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Line.BorderSizePixel = 0
+    Line.Size = UDim2.new(0, 230, 0, -2)
+
+    Items.Name = "Items"
+    Items.Parent = WatermarkBody
+    Items.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Items.BackgroundTransparency = 1.000
+    Items.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Items.BorderSizePixel = 0
+    Items.Position = UDim2.new(0.12608695, 0, 0, 0)
+    Items.Size = UDim2.new(0, 166, 0, 25)
+    Items.Font = Enum.Font.SourceSans
+    Items.Text = text or "Watermark"
+    Items.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Items.TextSize = 15.000
+    Items.TextXAlignment = Enum.TextXAlignment.Left
+
+    UIPadding.Parent = Items
+    UIPadding.PaddingBottom = UDim.new(0, 5)
+    UIPadding.PaddingLeft = UDim.new(0, 5)
+    UIPadding.PaddingRight = UDim.new(0, 5)
+    UIPadding.PaddingTop = UDim.new(0, 5)
+
+    Icon.Name = "Icon"
+    Icon.Parent = WatermarkBody
+    Icon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Icon.BackgroundTransparency = 1.000
+    Icon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+    Icon.BorderSizePixel = 0
+    Icon.Position = UDim2.new(-0.0521739125, 0, -0.600000024, 0)
+    Icon.Size = UDim2.new(0, 60, 0, 54)
+    Icon.Image = icon or "http://www.roblox.com/asset/?id=18190092646"
+    Icon.ScaleType = Enum.ScaleType.Fit
+
+    return Watermark
 end
 
 return Library
