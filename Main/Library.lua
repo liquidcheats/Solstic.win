@@ -1464,7 +1464,7 @@ function NotifyV2(text, content, icon, duration)
         end)
 end
 
-function MakeKeybind(name, pos)
+function MakeKeybind(enabled, name, pos)
     local Keybind = Instance.new("ScreenGui")
     local KeybindBody = Instance.new("Frame")
     Dragify(KeybindBody, KeybindBody)
@@ -1478,6 +1478,7 @@ function MakeKeybind(name, pos)
     Keybind.Name = "Keybind"
     Keybind.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     Keybind.ResetOnSpawn = false
+    Keybind.Enabled = enabled
 
     KeybindBody.Name = "KeybindBody"
     KeybindBody.Parent = Keybind
