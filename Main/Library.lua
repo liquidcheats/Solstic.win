@@ -1587,6 +1587,8 @@ end
 function CreateWatermark(enabled, icon, text)
 	local Watermark = Instance.new("ScreenGui")
 	local WatermarkBody = Instance.new("Frame")
+    Dragify(WatermarkBody, WatermarkBody)
+    MobileDragify(WatermarkBody)
 	local Line = Instance.new("Frame")
 	local Items = Instance.new("TextLabel")
 	local UIPadding = Instance.new("UIPadding")
