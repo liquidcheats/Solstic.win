@@ -1467,7 +1467,7 @@ end
 function MakeKeybind(name, pos)
     local Keybind = Instance.new("ScreenGui")
     local KeybindBody = Instance.new("Frame")
-    Dragify(Keybind, Keybind)
+    Dragify(KeybindBody, KeybindBody)
     MobileDragify(KeybindBody)
     local Title = Instance.new("TextLabel")
     local Icon = Instance.new("ImageLabel")
