@@ -628,7 +628,7 @@ Buybot:Dropdown({
 
 -- Configuration
 
-local UISetting = Tabs.Config:Section({ text = "Misc" })
+local UISetting = Tabs.Config:Section({ text = "Main" })
 
 UISetting:Keybind({
     text = "Bind",
@@ -643,6 +643,24 @@ UISetting:Button({
     callback = function()
         Library:Unload()
     end,
+})
+
+local UIVisibility = Tabs.Config:Section({ text = "Interface" })
+
+UISetting:Keybind({
+    text = "Watermark",
+    default = Enum.KeyCode.H,
+    callback = function(tbl)
+        
+    end
+})
+
+UISetting:Keybind({
+    text = "Keybind Lists",
+    default = Enum.KeyCode.H,
+    callback = function(tbl)
+        
+    end
 })
 
 RunService.RenderStepped:Connect(function()
@@ -736,7 +754,7 @@ mt.__namecall = function(self, ...)
 end
 setreadonly(mt, true)
 LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
-    if MiscellaneousMain.InfiniteCash then
+    if MiscellaneousMain.InfiniteCash and LocalPlayer.Cash.Value ~= 8000 then
         LocalPlayer.Cash.Value = 8000
     end
 end)
