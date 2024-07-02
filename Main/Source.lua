@@ -647,7 +647,7 @@ UISetting:Button({
 
 local UIVisibility = Tabs.Config:Section({ text = "Interface" })
 
-UISetting:Keybind({
+UIVisibility:Toggle({
     text = "Watermark",
     default = Enum.KeyCode.H,
     callback = function(tbl)
@@ -655,7 +655,7 @@ UISetting:Keybind({
     end
 })
 
-UISetting:Keybind({
+UIVisibility:Toggle({
     text = "Keybind Lists",
     default = Enum.KeyCode.H,
     callback = function(tbl)
