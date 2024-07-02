@@ -1645,20 +1645,6 @@ function CreateWatermark(enabled, icon, text)
 	Icon.Image = icon or "http://www.roblox.com/asset/?id=18190092646"
 	Icon.ScaleType = Enum.ScaleType.Fit
 	
-	local lastUpdateTime = tick()
-	local frameCount = 0
-	
-	game:GetService("RunService"):RenderStepped:Connect(function()
-		frameCount = frameCount + 1
-		local currentTime = tick()
-		if currentTime - lastUpdateTime >= 1 then
-			local fps = frameCount / (currentTime - lastUpdateTime)
-			Items.Text = string.format("%s | FPS: %d", text, fps)
-			lastUpdateTime = currentTime
-			frameCount = 0
-		end
-	end)
-	
 	return Watermark
 end
 
