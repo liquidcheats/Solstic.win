@@ -519,7 +519,7 @@ Chat:Dropdown({
     end
 })
 
-Chat:Toggle({
+Chat:Slider({
     text = "Speed (ms)",
     min = 150,
     max = 1000,
@@ -537,11 +537,11 @@ Chat:Toggle({
 })
 
 Chat:Textbox({
-        text = "message",
-        value = "message",
-        callback = function(tbl)
+    text = "message",
+    value = "message",
+    callback = function(tbl)
 
-        end
+    end
 })
 
 Chat:Toggle({
@@ -651,7 +651,7 @@ UIVisibility:Toggle({
     text = "Watermark",
     default = Enum.KeyCode.H,
     callback = function(tbl)
-	    Watermark.Enabled = tbl
+       WatermarkList = tbl
     end
 })
 
@@ -659,9 +659,13 @@ UIVisibility:Toggle({
     text = "Keybind Lists",
     default = Enum.KeyCode.H,
     callback = function(tbl)
-        Keybind.Enabled = tbl
+        KeybindList = tbl
     end
 })
+
+if UserInputService.TouchEnabled then 
+    MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
+end
 
 RunService.RenderStepped:Connect(function()
     if LocalPlayer.Character ~= nil and LocalPlayer.Character.Humanoid.Health > 0 then
@@ -754,10 +758,7 @@ mt.__namecall = function(self, ...)
 end
 setreadonly(mt, true)
 LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
-    if MiscellaneousMain.InfiniteCash and LocalPlayer.Cash.Value ~= 8000 then
+    if MiscellaneousMain.InfiniteCash then
         LocalPlayer.Cash.Value = 8000
     end
 end)
-if UserInputService.TouchEnabled then 
-    MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
-end
