@@ -9,8 +9,6 @@ local Mouse = LocalPlayer:GetMouse()
 local Camera = workspace.CurrentCamera
 local Client = LocalPlayer.PlayerGui:FindFirstChild("Client") and getsenv(LocalPlayer.PlayerGui.Client) or nil
 
-local Crosshairs = PlayerGui.GUI.Crosshairs
-local Crosshair = PlayerGui.GUI.Crosshairs.Crosshair
 local oldcreatebullethole = Client.createbullethole
 local LGlove, RGlove, LSleeve, RSleeve, RArm, LArm
 local WeaponObj = {}
@@ -396,7 +394,6 @@ Local:Toggle({
     end
 })
 
-Players.Roll
 Local:Slider({
     text = "Viewmodel X",
     min = -10,
@@ -412,7 +409,7 @@ Local:Slider({
     min = -10,
     max = -10,
     callback = function(tbl)
-        Players.ViewmodelY
+        Players.ViewmodelY = tbl
 	    ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
     end
 })
