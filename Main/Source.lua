@@ -9,11 +9,21 @@ local Mouse = LocalPlayer:GetMouse()
 local Camera = workspace.CurrentCamera
 local Client = LocalPlayer.PlayerGui:FindFirstChild("Client") and getsenv(LocalPlayer.PlayerGui.Client) or nil
 
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/liquidcheats/Solstic.win/main/Main/Library.lua"))()
-local Window = Library:Window({ text = "solstic.win" })
+local Crosshairs = PlayerGui.GUI.Crosshairs
+local Crosshair = PlayerGui.GUI.Crosshairs.Crosshair
+local oldcreatebullethole = Client.createbullethole
+local LGlove, RGlove, LSleeve, RSleeve, RArm, LArm
+local WeaponObj = {}
+local SelfObj = {}
+local Viewmodels =  ReplicatedStorage.Viewmodels
+local Weapons =  ReplicatedStorage.Weapons
+local ViewmodelOffset = CFrame.new(0,0,0)
 
-local cfglocation = "solsticiscfg/"
-makefolder("solsticiscfg")
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/liquidcheats/tipware/main/Main/Library.lua"))()
+local Window = Library:Window({ text = "tipware" })
+
+local cfglocation = "tipwareiscfg/"
+makefolder("tipwareiscfg")
 
 -- Toggle UI: Library:Toggle()
 
@@ -37,76 +47,78 @@ local Tabs = { -- Default: rbxassetid://7999345313
 }
 
 local Ragebot = {
-        Enabled = false,
-        SilentAim = false,
-        FOV = 100,
-        OverrideResolver = false,
-
-        Hideshots = false,
-        DoubleTap = false,
-        KillAll = nil,
-
-        HitChance = 0,
-        StaticPointScale = false,
-        SafePoints = false,
-        ForceConditions = "None",
-        HeadSafetyifLethal = false,
-        BodyAim = "None",
-        Maxmisses = 0,
-
-        Visible = 0,
-        Autowall = 0,
-        AutoStop = false,
-        Conditions = "None",
-        AutoScope = false,
+    Enabled = false,
+    SilentAim = false,
+    FOV = 100,
+    OverrideResolver = false,
+    
+    Hideshots = false,
+    DoubleTap = false,
+    KillAll = nil,
+    
+    HitChance = 0,
+    StaticPointScale = false,
+    SafePoints = false,
+    ForceConditions = "None",
+    HeadSafetyifLethal = false,
+    BodyAim = "None",
+    Maxmisses = 0,
+    
+    Visible = 0,
+    Autowall = 0,
+    AutoStop = false,
+    Conditions = "None",
+    AutoScope = false,
 }
 
 local AntiAim = {
-        Enabled = false,
-        Spinbot = false,
-        SpinSpeed = 10,
-        Pitch = "Down",
-        YawBase = "None",
-        YawAdd = 0,
-        YawMod = "None",
-        Degree = 0,
+    Enabled = false,
+    Spinbot = false,
+    SpinSpeed = 10,
+    Pitch = "Down",
+    YawBase = "None",
+    YawAdd = 0,
+    YawMod = "None",
+    Degree = 0,
 }
 
 local Legitbot = {
-
 }
 
 local Players = {
-
+    ViewmodelChanger = false,
+    ViewmodelX = 0,
+    ViewmodelY = 0,
+    ViewmodelZ = 0,
+    ViewmodelRoll = 0,
 }
 
 local World = {
-        OverrideZoom = false,
-        ForceThirdperson = false,
-        VisualRecoil = false,
-        Removals = "None",
+    OverrideZoom = false,
+    ForceThirdperson = false,
+    VisualRecoil = false,
+    Removals = "None",
 }
 
 local Inventory = {
-
 }
 
 local MiscellaneousMain = {
-        BunnyHop = false,
-        AirStrafe = false,
-        AirDuck = false,
-        BHopSpeed = 0,
-        StrafeAissist = false,
-        InfiniteDuck = false,
-        EdgeJump = false,
-        BlockBot = false,
-
-        BypassFireDmg = false,
-        BypassFallDmg = false,
-        AntiSpectate = false,
-        InfiniteCash = false,
-
-        NoFilter = false, -- most easiest way to be ban
+    BunnyHop = false,
+    AirStrafe = false,
+    AirDuck = false,
+    BHopSpeed = 0,
+    StrafeAissist = false,
+    InfiniteDuck = false,
+    EdgeJump = false,
+    BlockBot = false,
+    
+    BypassFireDmg = false,
+    BypassFallDmg = false,
+    AntiSpectate = false,
+    InfiniteCash = false,
+    
+    NoFilter = false,
 }
 
 -- Toggle
@@ -374,6 +386,57 @@ local AAMisc = Tabs.AntiAim:Section({ text = "Misc" })
 
 -- Player
 
+local Local = Tabs.Players:Section({ text = "Local" })
+
+Local:Toggle({
+    text = "Viewmodel Changer",
+    default = false,
+    callback = function(tbl)
+        Players.ViewmodelChanger = tbl
+    end
+})
+
+Players.Roll
+Local:Slider({
+    text = "Viewmodel X",
+    min = -10,
+    max = -10,
+    callback = function(tbl)
+        Players.ViewmodelX = tbl
+        ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
+    end
+})
+
+Local:Slider({
+    text = "Viewmodel Y",
+    min = -10,
+    max = -10,
+    callback = function(tbl)
+        Players.ViewmodelY
+	    ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
+    end
+})
+
+Local:Slider({
+    text = "Viewmodel Z",
+    min = -10,
+    max = -10,
+    callback = function(tbl)
+        Players.ViewmodelZ = tbl
+		ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
+    end
+})
+
+Local:Slider({
+    text = "Roll",
+    min = -10,
+    max = -10,
+    callback = function(tbl)
+        Players.ViewmodelRoll = tbl
+        ViewmodelOffset = CFrame.new(Players.ViewmodelX/7, Players.ViewmodelY/7, Players.ViewmodelZ/7) * CFrame.Angles(0, 0, Players.ViewmodelRoll/50)
+    end
+})
+
 -- World
 
 local WorldMain = Tabs.World:Section({ text = "Main" })
@@ -584,8 +647,8 @@ Cilent:Toggle({
     text = "Infinite Cash",
     state = false,
     callback = function(tbl)
-                LocalPlayer.Cash.Value = 8000
-                MiscellaneousMain.InfiniteCash = tbl
+        LocalPlayer.Cash.Value = 8000
+        MiscellaneousMain.InfiniteCash = tbl
     end
 })
 
@@ -649,17 +712,17 @@ local UIVisibility = Tabs.Config:Section({ text = "Interface" })
 
 UIVisibility:Toggle({
     text = "Watermark",
-    default = Enum.KeyCode.H,
+    default = false,
     callback = function(tbl)
-       WatermarkList = tbl
+       
     end
 })
 
 UIVisibility:Toggle({
     text = "Keybind Lists",
-    default = Enum.KeyCode.H,
+    default = false,
     callback = function(tbl)
-        KeybindList = tbl
+        
     end
 })
 
@@ -719,6 +782,7 @@ RunService.RenderStepped:Connect(function()
         end
         task.wait()
 end)
+
 local mt = getrawmetatable(game)
 local oldNamecall = mt.__namecall
 local oldIndex = mt.__index
@@ -727,6 +791,16 @@ setreadonly(mt, false)
 mt.__namecall = function(self, ...)
     local method = tostring(getnamecallmethod())
     local args = {...}
+    
+    if method == "SetPrimaryPartCFrame" and self.Name == "Arms" then
+		if Players.ViewmodelChanger and LocalPlayer.Character then
+			args[1] = args[1] * CFrame.new(99, 99, 99)
+		else
+			if Players.ViewmodelChanger then
+				args[1] = args[1] * ViewmodelOffset
+			end
+		end
+	end
     if method == "Kick" then
         return
     end
