@@ -400,7 +400,7 @@ Local:Slider({
     min = -10,
     max = -10,
     callback = function(tbl)
-        Players.ViewmodelY
+        Players.ViewmodelY = tbl
 	    ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
     end
 })
@@ -432,7 +432,7 @@ local WorldMain = Tabs.World:Section({ text = "Main" })
 WorldMain:Slider({
     text = "FOV",
     min = 0,
-    max = 120,
+    max = 90,
     Float = 3,
    callback = function(tbl)
         workspace.Camera.FieldOfView = tbl
