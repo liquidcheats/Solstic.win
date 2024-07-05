@@ -1,4 +1,5 @@
 local Library = {}
+local Utility = {}
 
 local NeverloseVersion = "v1.1A."
 
@@ -136,6 +137,14 @@ function Library:Unload()
     if NeverloseGui then
         NeverloseGui:Destroy()
     end
+end
+
+function Utility:RenderObject(className, properties)
+    local obj = Instance.new(className)
+    for prop, value in pairs(properties) do
+        obj[prop] = value
+    end
+    return obj
 end
 
 function Library:Window(options)
