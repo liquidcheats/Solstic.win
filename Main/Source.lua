@@ -9,7 +9,6 @@ local Mouse = LocalPlayer:GetMouse()
 local Camera = workspace.CurrentCamera
 local Client = LocalPlayer.PlayerGui:FindFirstChild("Client") and getsenv(LocalPlayer.PlayerGui.Client) or nil
 
-local oldcreatebullethole = Client.createbullethole
 local LGlove, RGlove, LSleeve, RSleeve, RArm, LArm
 local WeaponObj = {}
 local SelfObj = {}
@@ -50,7 +49,6 @@ local Ragebot = {
     FOV = 100,
     OverrideResolver = false,
     
-    Hideshots = false,
     DoubleTap = false,
     KillAll = nil,
     
@@ -160,14 +158,6 @@ Aimbot:Toggle({
 })
 
 local Exploits = Tabs.Ragebot:Section({ text = "Exploits" })
-
-Exploits:Toggle({
-    text = "Hide shots",
-    state = false,
-    callback = function(tbl)
-        Rage.Hideshots = tbl
-    end
-})
 
 Exploits:Keybind({
     text = "Double Tap",
@@ -394,6 +384,7 @@ Local:Toggle({
     end
 })
 
+Players.Roll
 Local:Slider({
     text = "Viewmodel X",
     min = -10,
@@ -409,7 +400,7 @@ Local:Slider({
     min = -10,
     max = -10,
     callback = function(tbl)
-        Players.ViewmodelY = tbl
+        Players.ViewmodelY
 	    ViewmodelOffset = CFrame.new(values.visuals.self["viewmodel x"].Slider/7, values.visuals.self["viewmodel y"].Slider/7, values.visuals.self["viewmodel z"].Slider/7) * CFrame.Angles(0, 0, values.visuals.self.roll.Slider/50)
     end
 })
@@ -644,45 +635,7 @@ Cilent:Toggle({
     text = "Infinite Cash",
     state = false,
     callback = function(tbl)
-        LocalPlayer.Cash.Value = 8000
         MiscellaneousMain.InfiniteCash = tbl
-    end
-})
-
-local Buybot = Tabs.MiscMain:Section({ text = "Buybot" })
-
-Buybot:Toggle({
-    text = "Enable BuyBot",
-    state = false,
-    callback = function(tbl)
-
-    end
-})
-
-Buybot:Dropdown({
-    text = "Primary",
-    list = {""},
-    default = "Off",
-    callback = function(tbl)
-
-    end
-})
-
-Buybot:Dropdown({
-    text = "Secondary",
-    list = {""},
-    default = "Off",
-    callback = function(tbl)
-
-    end
-})
-
-Buybot:Dropdown({
-    text = "Equipment",
-    list = {""},
-    default = "Off",
-    callback = function(tbl)
-
     end
 })
 
@@ -705,23 +658,7 @@ UISetting:Button({
     end,
 })
 
-local UIVisibility = Tabs.Config:Section({ text = "Interface" })
-
-UIVisibility:Toggle({
-    text = "Watermark",
-    default = false,
-    callback = function(tbl)
-       
-    end
-})
-
-UIVisibility:Toggle({
-    text = "Keybind Lists",
-    default = false,
-    callback = function(tbl)
-        
-    end
-})
+local Config = Tabs.Config:Section({ text = "Configuration" })
 
 if UserInputService.TouchEnabled then 
     MobileToggle(Enum.KeyCode.H, "rbxassetid://18190086247") 
@@ -748,16 +685,17 @@ RunService.RenderStepped:Connect(function()
         end
     end
     if MiscellaneousMain.BunnyHop then
-        if LocalPlayer.Character ~= nil and UserInputService:IsKeyDown(Enum.KeyCode.Space) and LocalPlayer.PlayerGui.GUI.Main.GlobalChat.Visible == false then
+        if LocalPlayer.Character ~= nil and UserInputService:IsKeyDown(Enum.KeyCode.Space) and not LocalPlayer.PlayerGui.GUI.Main.GlobalChat.Visible then
             LocalPlayer.Character.Humanoid.Jump = true
             local Speed = MiscellaneousMain.BHopSpeed
-            local Dir = Camera.CFrame.LookVector * Vector3.new(1,0,1)
+            local Dir = Camera.CFrame.LookVector * Vector3.new(1, 0, 1)
             local Move = Vector3.new()
 
             Move = UserInputService:IsKeyDown(Enum.KeyCode.W) and Move + Dir or Move
             Move = UserInputService:IsKeyDown(Enum.KeyCode.S) and Move - Dir or Move
-            Move = UserInputService:IsKeyDown(Enum.KeyCode.D) and Move + Vector3.new(-Dir.Z,0,Dir.X) or Move
-            Move = UserInputService:IsKeyDown(Enum.KeyCode.A) and Move + Vector3.new(Dir.Z,0,-Dir.X) or Move
+            Move = UserInputService:IsKeyDown(Enum.KeyCode.D) and Move + Vector3.new(-Dir.Z, 0, Dir.X) or Move
+            Move = UserInputService:IsKeyDown(Enum.KeyCode.A) and Move + Vector3.new(Dir.Z, 0, -Dir.X) or Move
+
             if Move.Unit.X == Move.Unit.X then
                 Move = Move.Unit
                 LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(Move.X * Speed, LocalPlayer.Character.HumanoidRootPart.Velocity.Y, Move.Z * Speed)
@@ -765,19 +703,23 @@ RunService.RenderStepped:Connect(function()
         end
     end
     if MiscellaneousMain.InfiniteDuck then
-                Client.crouchcooldown = 0
-        end
+        Client.crouchcooldown = 0
+    end
     if MiscellaneousMain.EdgeJump then
-                if LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
-                        coroutine.wrap(function()
-                                RunService.RenderStepped:Wait()
-                                if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
-                                        LocalPlayer.Character.Humanoid:ChangeState("Jumping")
-                                end
-                        end)()
+        if LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
+            coroutine.wrap(function()
+                RunService.RenderStepped:Wait()
+                if LocalPlayer.Character ~= nil and LocalPlayer.Character:FindFirstChild("Humanoid") and LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping then
+                    LocalPlayer.Character.Humanoid:ChangeState("Jumping")
                 end
+            end)()
         end
-        task.wait()
+    end
+    if MiscellaneousMain.InfiniteCash and LocalPlayer and LocalPlayer.Parent then
+        LocalPlayer.Cash.Value = 9550
+    end
+
+    task.wait()
 end)
 
 local mt = getrawmetatable(game)
@@ -828,8 +770,3 @@ mt.__namecall = function(self, ...)
     return oldNamecall(self, unpack(args))
 end
 setreadonly(mt, true)
-LocalPlayer.Cash:GetPropertyChangedSignal("Value"):Connect(function()
-    if MiscellaneousMain.InfiniteCash then
-        LocalPlayer.Cash.Value = 8000
-    end
-end)
