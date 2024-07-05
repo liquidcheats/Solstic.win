@@ -384,7 +384,6 @@ Local:Toggle({
     end
 })
 
-Players.Roll
 Local:Slider({
     text = "Viewmodel X",
     min = -10,
