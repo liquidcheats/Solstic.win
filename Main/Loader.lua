@@ -268,6 +268,6 @@ exit.MouseButton1Click:Connect(function()
     local CoreGui = game:GetService("CoreGui")
     local LoaderUI = CoreGui:FindFirstChild("Tipware")
     if LoaderUI then
-        TipwareGui:Destroy()
+        LoaderUI:Destroy()
     end
 end)
