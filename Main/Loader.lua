@@ -1,13 +1,4 @@
-local TweenService = game:GetService("TweenService")
-local input = game:GetService("UserInputService")
-local RunService = game:GetService("RunService")
-local Lighting = game:GetService("Lighting")
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local PlayerGui = LocalPlayer.PlayerGui
-local Mouse = LocalPlayer:GetMouse()
-
-local function Dragify(frame, parent)
+function Dragify(frame, parent)
 
     parent = parent or frame
 
