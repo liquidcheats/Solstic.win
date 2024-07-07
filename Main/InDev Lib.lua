@@ -1,585 +1,1036 @@
+local Library = {}
+
+local TipwareVersion = "v1.1A."
+
+local TweenService = game:GetService("TweenService")
+local input = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local Mouse = LocalPlayer:GetMouse()
+
+local function Dragify(frame, parent)
+
+    parent = parent or frame
+
+    local dragging = false
+    local dragInput, mousePos, framePos
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            mousePos = input.Position
+            framePos = parent.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    input.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - mousePos
+            parent.Position  = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
+local function easeOutCubic(t, b, c, d)
+    t = t / d - 1
+    return c * (t * t * t + 1) + b
+end
+
+local function MobileDragify(frame, time)
+    local dragStart = nil
+    local startPos = nil
+    local startTime = nil
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch then
+            dragStart = input.Position
+            startPos = frame.Position
+            startTime = tick()
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if dragStart then
+            local delta = input.Position - dragStart
+            local elapsedTime = tick() - startTime
+            local easingFactor = easeOutCubic(math.min(elapsedTime / time, 1), 0, 1, 1)
+
+            frame.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X * easingFactor,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y * easingFactor
+            )
+        end
+    end)
+
+    frame.InputEnded:Connect(function(input)
+        dragStart = nil
+    end)
+end
+
+function Library:Toggle()
+    local CoreGui = game:GetService("CoreGui")
+    local TipwareGui = CoreGui:FindFirstChild("Tipware")
+    if TipwareGui == nil then return end
+    
+    TipwareGui.Enabled = not TipwareGui.Enabled
+end
+
+function Library:Unload()
+    local CoreGui = game:GetService("CoreGui")
+    local TipwareGui = CoreGui:FindFirstChild("Tipware")
+    if TipwareGui then
+        TipwareGui:Destroy()
+    end
+end
+
 local Tipware = Instance.new("ScreenGui")
 local Body = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local UIPadding = Instance.new("UIPadding")
-local Title2 = Instance.new("TextLabel")
-local UIPadding_2 = Instance.new("UIPadding")
-local Outline2 = Instance.new("Frame")
-local Outline3 = Instance.new("Frame")
-local TabBody = Instance.new("Frame")
-local RageTab = Instance.new("Frame")
-local TextLabel = Instance.new("TextLabel")
-local UIPadding_3 = Instance.new("UIPadding")
+Dragify(Body, Body)
+MobileDragify(Body, 0.6)
+local UIScale = Instance.new("UIScale")
+
+local Elements = Instance.new("Frame")
+
+local ElementUICorner = Instance.new("UICorner")
+local UICorner_3 = Instance.new("UICorner")
+local UICorner_2 = Instance.new("UICorner")
+local UICorner = Instance.new("UICorner")
+local HandleUICorner = Instance.new("UICorner")
+local SmoothingUICorner = Instance.new("UICorner")
+local BodyUICorner = Instance.new("UICorner")
+
+local ElementBox = Instance.new("Frame")
+local ElementBox_2 = Instance.new("Frame")
+local ElementBox_3 = Instance.new("Frame")
+
+local ElementPadding = Instance.new("UIPadding")
+local ElementsPadding = Instance.new("UIPadding")
+local ElementsPadding_2 = Instance.new("UIPadding")
+local ElementsPadding_3 = Instance.new("UIPadding")
+local HitboxPadding = Instance.new("UIPadding")
+local HitboxPadding_2 = Instance.new("UIPadding")
+local BodyPadding = Instance.new("UIPadding")
+
+local BoxName = Instance.new("TextLabel")
+local BoxName_2 = Instance.new("TextLabel")
+local BoxName_3 = Instance.new("TextLabel")
+
+local HitboxDropDown = Instance.new("TextButton")
+local Handle = Instance.new("TextButton")
+local HitboxName = Instance.new("TextLabel")
+local Plus = Instance.new("TextLabel")
+local HitboxName_2 = Instance.new("TextLabel")
+
+local Amnt = Instance.new("TextLabel")
+
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local ScrollingFrame_2 = Instance.new("ScrollingFrame")
+local ScrollingFrame_3 = Instance.new("ScrollingFrame")
+
+local UIGridLayout = Instance.new("UIGridLayout")
+
 local UIListLayout = Instance.new("UIListLayout")
-local LegitTab = Instance.new("Frame")
-local TextLabel_2 = Instance.new("TextLabel")
-local UIPadding_4 = Instance.new("UIPadding")
-local ESPTab = Instance.new("Frame")
-local TextLabel_3 = Instance.new("TextLabel")
-local UIPadding_5 = Instance.new("UIPadding")
-local LayoutItems = Instance.new("ScrollingFrame")
-local ExampleSection = Instance.new("Frame")
-local SectionTitle = Instance.new("TextLabel")
-local SectionScroll = Instance.new("ScrollingFrame")
-local SectionItems = Instance.new("Frame")
 local UIListLayout_2 = Instance.new("UIListLayout")
-local Toggle = Instance.new("Frame")
-local Name = Instance.new("TextLabel")
-local UIPadding_6 = Instance.new("UIPadding")
-local State = Instance.new("TextLabel")
-local Textbox = Instance.new("Frame")
-local Name_2 = Instance.new("TextLabel")
-local UIPadding_7 = Instance.new("UIPadding")
-local Value = Instance.new("TextBox")
-local UIPadding_8 = Instance.new("UIPadding")
-local Keybind = Instance.new("Frame")
-local Name_3 = Instance.new("TextLabel")
-local UIPadding_9 = Instance.new("UIPadding")
-local State_2 = Instance.new("TextLabel")
-local UIPadding_10 = Instance.new("UIPadding")
-local Silder = Instance.new("Frame")
-local Name_4 = Instance.new("TextLabel")
-local UIPadding_11 = Instance.new("UIPadding")
-local AmntBackground = Instance.new("Frame")
-local AmntProgress = Instance.new("Frame")
-local Default = Instance.new("TextLabel")
-local HItPartSection = Instance.new("Frame")
-local SectionTitle_2 = Instance.new("TextLabel")
-local SectionItems_2 = Instance.new("Frame")
-local UIPadding_12 = Instance.new("UIPadding")
-local Head = Instance.new("Frame")
-local Torso = Instance.new("Frame")
-local LeftArm = Instance.new("Frame")
-local LeftLeg = Instance.new("Frame")
-local RightArm = Instance.new("Frame")
-local RightLeg = Instance.new("Frame")
-local Pelvis = Instance.new("Frame")
-local UIPadding_13 = Instance.new("UIPadding")
 local UIListLayout_3 = Instance.new("UIListLayout")
-local Outline = Instance.new("Frame")
-local Status = Instance.new("TextLabel")
-local UIPadding_14 = Instance.new("UIPadding")
+local UIListLayout_4 = Instance.new("UIListLayout")
+
+local ToggleName = Instance.new("TextLabel")
+local ToggleName_2 = Instance.new("TextLabel")
+local ToggleName_3 = Instance.new("TextLabel")
+local ToggleName_4 = Instance.new("TextLabel")
+local ToggleName_5 = Instance.new("TextLabel")
+local ToggleName_6 = Instance.new("TextLabel")
+local ToggleName_7 = Instance.new("TextLabel")
+
+local SmoothingSilder = Instance.new("TextButton")
+
+local TitleLine = Instance.new("Frame")
+
+-- Window
+
+local Tabs = Instance.new("Frame")
+
+local aimbot = Instance.new("TextButton")
+local silentaim = Instance.new("TextButton")
+local render = Instance.new("TextButton")
+local misc = Instance.new("TextButton")
+local antiaim = Instance.new("TextButton")
+
+local Title = Instance.new("TextLabel")
+local SubTitle = Instance.new("TextLabel")
+local SubNote = Instance.new("TextLabel")
+
+-- Aimbot
+
+local AimbotBox = Instance.new("Frame")
+
+local enabled = Instance.new("TextButton")
+local pred = Instance.new("TextBox")
+local bind = Instance.new("TextBox")
+local tracer = Instance.new("TextButton")
+local fov = Instance.new("TextButton")
+local autopred = Instance.new("TextButton")
+local usemousesenv = Instance.new("TextButton")
+
+-- General
+
+local GeneralBox = Instance.new("Frame")
+
+-- OnHit
+
+local OnHitBox = Instance.new("Frame")
+
+local skeleton = Instance.new("TextButton")
+local chams = Instance.new("TextButton")
+local hitsound = Instance.new("TextBox")
+
+-- Prop
 
 Tipware.Name = "Tipware"
-Tipware.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Tipware.Parent = game.CoreGui
 Tipware.DisplayOrder = 9999
 Tipware.ResetOnSpawn = false
 
 Body.Name = "Body"
 Body.Parent = Tipware
-Body.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
-Body.BorderColor3 = Color3.fromRGB(30, 30, 30)
-Body.BorderSizePixel = 2
-Body.Position = UDim2.new(0.356747925, 0, 0.255193233, 0)
-Body.Size = UDim2.new(0, 547, 0, 404)
+Body.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+Body.BorderColor3 = Color3.fromRGB(61, 61, 61)
+Body.Position = UDim2.new(0.367293626, 0, 0.275362313, 0)
+Body.Size = UDim2.new(0, 568, 0, 372)
+
+Elements.Name = "Elements"
+Elements.Parent = Body
+Elements.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+Elements.BorderColor3 = Color3.fromRGB(57, 57, 57)
+Elements.Position = UDim2.new(0.0171049386, 0, 0.162345931, 0)
+Elements.Size = UDim2.new(0, 543, 0, 292)
+
+ElementUICorner.Name = "ElementUICorner"
+ElementUICorner.Parent = Elements
+
+ScrollingFrame.Parent = Elements
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame.BackgroundTransparency = 1.000
+ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollingFrame.BorderSizePixel = 0
+ScrollingFrame.Position = UDim2.new(0, 0, -0.021428572, 0)
+ScrollingFrame.Size = UDim2.new(0, 537, 0, 292)
+ScrollingFrame.ScrollBarThickness = 0
+
+GeneralBox.Name = "GeneralBox"
+GeneralBox.Parent = ScrollingFrame
+GeneralBox.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+GeneralBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+GeneralBox.BorderSizePixel = 0
+GeneralBox.Position = UDim2.new(0.0988593176, 0, 0.408088237, 0)
+GeneralBox.Size = UDim2.new(0, 260, 0, 110)
+
+UICorner.Parent = GeneralBox
+
+BoxName.Name = "BoxName"
+BoxName.Parent = GeneralBox
+BoxName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BoxName.BackgroundTransparency = 1.000
+BoxName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BoxName.BorderSizePixel = 0
+BoxName.Position = UDim2.new(0.0349344984, 0, -0.00881622359, 0)
+BoxName.Size = UDim2.new(0, 54, 0, 22)
+BoxName.Font = Enum.Font.SourceSans
+BoxName.Text = "general"
+BoxName.TextColor3 = Color3.fromRGB(255, 255, 255)
+BoxName.TextSize = 17.000
+BoxName.TextXAlignment = Enum.TextXAlignment.Left
+
+ElementBox.Name = "ElementBox"
+ElementBox.Parent = GeneralBox
+ElementBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ElementBox.BackgroundTransparency = 1.000
+ElementBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ElementBox.BorderSizePixel = 0
+ElementBox.Position = UDim2.new(0, 0, 0.292134821, 0)
+ElementBox.Size = UDim2.new(0, 229, 0, 59)
+
+ElementsPadding.Name = "ElementsPadding"
+ElementsPadding.Parent = ElementBox
+ElementsPadding.PaddingLeft = UDim.new(0, 8)
+
+HitboxDropDown.Name = "HitboxDropDown"
+HitboxDropDown.Parent = ElementBox
+HitboxDropDown.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+HitboxDropDown.BorderColor3 = Color3.fromRGB(22, 22, 22)
+HitboxDropDown.Size = UDim2.new(0, 139, 0, 17)
+HitboxDropDown.AutoButtonColor = false
+HitboxDropDown.Font = Enum.Font.SourceSans
+HitboxDropDown.Text = "head"
+HitboxDropDown.TextColor3 = Color3.fromRGB(145, 145, 145)
+HitboxDropDown.TextSize = 14.000
+HitboxDropDown.TextXAlignment = Enum.TextXAlignment.Left
+
+HitboxPadding.Name = "HitboxPadding"
+HitboxPadding.Parent = HitboxDropDown
+HitboxPadding.PaddingLeft = UDim.new(0, 5)
+
+HitboxName.Name = "HitboxName"
+HitboxName.Parent = HitboxDropDown
+HitboxName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+HitboxName.BackgroundTransparency = 1.000
+HitboxName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HitboxName.BorderSizePixel = 0
+HitboxName.Position = UDim2.new(-0.0292335618, 0, -0.829683185, 0)
+HitboxName.Size = UDim2.new(0, 104, 0, 14)
+HitboxName.Font = Enum.Font.SourceSans
+HitboxName.Text = "hitpart"
+HitboxName.TextColor3 = Color3.fromRGB(255, 255, 255)
+HitboxName.TextSize = 14.000
+HitboxName.TextXAlignment = Enum.TextXAlignment.Left
+
+Plus.Name = "Plus"
+Plus.Parent = HitboxDropDown
+Plus.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Plus.BackgroundTransparency = 1.000
+Plus.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Plus.BorderSizePixel = 0
+Plus.Position = UDim2.new(0.917910457, 0, 0, 0)
+Plus.Size = UDim2.new(0, 5, 0, 17)
+Plus.Font = Enum.Font.SourceSans
+Plus.Text = "+"
+Plus.TextColor3 = Color3.fromRGB(255, 255, 255)
+Plus.TextSize = 14.000
+Plus.TextXAlignment = Enum.TextXAlignment.Right
+
+SmoothingSilder.Name = "SmoothingSilder"
+SmoothingSilder.Parent = ElementBox
+SmoothingSilder.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
+SmoothingSilder.BorderColor3 = Color3.fromRGB(22, 22, 22)
+SmoothingSilder.Position = UDim2.new(0, 0, 0.542372882, 0)
+SmoothingSilder.Size = UDim2.new(0, 238, 0, 14)
+SmoothingSilder.AutoButtonColor = false
+SmoothingSilder.Font = Enum.Font.SourceSans
+SmoothingSilder.Text = ""
+SmoothingSilder.TextColor3 = Color3.fromRGB(145, 145, 145)
+SmoothingSilder.TextSize = 14.000
+SmoothingSilder.TextXAlignment = Enum.TextXAlignment.Left
+
+HitboxPadding_2.Name = "HitboxPadding"
+HitboxPadding_2.Parent = SmoothingSilder
+HitboxPadding_2.PaddingLeft = UDim.new(0, 5)
+
+HitboxName_2.Name = "HitboxName"
+HitboxName_2.Parent = SmoothingSilder
+HitboxName_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+HitboxName_2.BackgroundTransparency = 1.000
+HitboxName_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+HitboxName_2.BorderSizePixel = 0
+HitboxName_2.Position = UDim2.new(-0.0168116484, 0, -1.0899179, 0)
+HitboxName_2.Size = UDim2.new(0, 104, 0, 14)
+HitboxName_2.Font = Enum.Font.SourceSans
+HitboxName_2.Text = "smoothing"
+HitboxName_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+HitboxName_2.TextSize = 14.000
+HitboxName_2.TextXAlignment = Enum.TextXAlignment.Left
+
+Handle.Name = "Handle"
+Handle.Parent = SmoothingSilder
+Handle.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+Handle.BorderColor3 = Color3.fromRGB(22, 22, 22)
+Handle.Position = UDim2.new(-0.0171673819, 0, 0, 0)
+Handle.Size = UDim2.new(0, 9, 0, 14)
+Handle.AutoButtonColor = false
+Handle.Font = Enum.Font.SourceSans
+Handle.Text = ""
+Handle.TextColor3 = Color3.fromRGB(145, 145, 145)
+Handle.TextSize = 14.000
+Handle.TextXAlignment = Enum.TextXAlignment.Left
+
+HandleUICorner.Name = "HandleUICorner"
+HandleUICorner.Parent = Handle
+
+SmoothingUICorner.Name = "SmoothingUICorner"
+SmoothingUICorner.Parent = SmoothingSilder
+
+Amnt.Name = "Amnt"
+Amnt.Parent = SmoothingSilder
+Amnt.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Amnt.BackgroundTransparency = 1.000
+Amnt.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Amnt.BorderSizePixel = 0
+Amnt.Position = UDim2.new(0.25, 0, -1.09000003, 0)
+Amnt.Size = UDim2.new(0, 25, 0, 14)
+Amnt.Font = Enum.Font.SourceSans
+Amnt.Text = "32"
+Amnt.TextColor3 = Color3.fromRGB(145, 145, 145)
+Amnt.TextSize = 14.000
+Amnt.TextWrapped = true
+Amnt.TextXAlignment = Enum.TextXAlignment.Left
+
+UIListLayout.Parent = ElementBox
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 15)
+
+ElementPadding.Name = "ElementPadding"
+ElementPadding.Parent = ScrollingFrame
+ElementPadding.PaddingBottom = UDim.new(0, 6)
+ElementPadding.PaddingLeft = UDim.new(0, 6)
+ElementPadding.PaddingRight = UDim.new(0, 6)
+ElementPadding.PaddingTop = UDim.new(0, 14)
+
+AimbotBox.Name = "AimbotBox"
+AimbotBox.Parent = ScrollingFrame
+AimbotBox.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+AimbotBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+AimbotBox.BorderSizePixel = 0
+AimbotBox.Position = UDim2.new(0, 0, -0.00208596629, 0)
+AimbotBox.Size = UDim2.new(0, 260, 0, 117)
+
+UICorner_2.Parent = AimbotBox
+
+BoxName_2.Name = "BoxName"
+BoxName_2.Parent = AimbotBox
+BoxName_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BoxName_2.BackgroundTransparency = 1.000
+BoxName_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BoxName_2.BorderSizePixel = 0
+BoxName_2.Position = UDim2.new(0.0349344984, 0, -0.00881622359, 0)
+BoxName_2.Size = UDim2.new(0, 54, 0, 22)
+BoxName_2.Font = Enum.Font.SourceSans
+BoxName_2.Text = "main"
+BoxName_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+BoxName_2.TextSize = 17.000
+BoxName_2.TextXAlignment = Enum.TextXAlignment.Left
+
+ScrollingFrame_2.Parent = AimbotBox
+ScrollingFrame_2.Active = true
+ScrollingFrame_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame_2.BackgroundTransparency = 1.000
+ScrollingFrame_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollingFrame_2.BorderSizePixel = 0
+ScrollingFrame_2.Position = UDim2.new(0, 0, 0.197281688, 0)
+ScrollingFrame_2.Size = UDim2.new(0, 266, 0, 89)
+ScrollingFrame_2.ScrollBarThickness = 0
+
+ElementBox_2.Name = "ElementBox"
+ElementBox_2.Parent = ScrollingFrame_2
+ElementBox_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ElementBox_2.BackgroundTransparency = 1.000
+ElementBox_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ElementBox_2.BorderSizePixel = 0
+ElementBox_2.Position = UDim2.new(0, 0, -0.0188820586, 0)
+ElementBox_2.Size = UDim2.new(0, 229, 0, 144)
+
+enabled.Name = "enabled"
+enabled.Parent = ElementBox_2
+enabled.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+enabled.BorderColor3 = Color3.fromRGB(29, 29, 29)
+enabled.Position = UDim2.new(0.0180995483, 0, -0.220338985, 0)
+enabled.Size = UDim2.new(0, 15, 0, 16)
+enabled.AutoButtonColor = false
+enabled.Font = Enum.Font.SourceSans
+enabled.Text = ""
+enabled.TextColor3 = Color3.fromRGB(0, 0, 0)
+enabled.TextSize = 14.000
+
+ToggleName.Name = "ToggleName"
+ToggleName.Parent = enabled
+ToggleName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName.BackgroundTransparency = 1.000
+ToggleName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName.BorderSizePixel = 0
+ToggleName.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName.Size = UDim2.new(0, 200, 0, 16)
+ToggleName.Font = Enum.Font.SourceSans
+ToggleName.Text = "enabled"
+ToggleName.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName.TextSize = 14.000
+ToggleName.TextXAlignment = Enum.TextXAlignment.Left
+
+pred.Name = "pred"
+pred.Parent = enabled
+pred.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+pred.BorderColor3 = Color3.fromRGB(29, 29, 29)
+pred.Position = UDim2.new(11.1999998, 0, 0.100917816, 0)
+pred.Size = UDim2.new(0, 62, 0, 16)
+pred.Font = Enum.Font.SourceSans
+pred.PlaceholderText = "prediction"
+pred.Text = ""
+pred.TextColor3 = Color3.fromRGB(255, 255, 255)
+pred.TextSize = 14.000
+pred.TextWrapped = true
+
+bind.Name = "bind"
+bind.Parent = enabled
+bind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+bind.BorderColor3 = Color3.fromRGB(29, 29, 29)
+bind.Position = UDim2.new(9.73333359, 0, 0.100917816, 0)
+bind.Size = UDim2.new(0, 22, 0, 16)
+bind.Font = Enum.Font.SourceSans
+bind.PlaceholderText = "key"
+bind.Text = ""
+bind.TextColor3 = Color3.fromRGB(255, 255, 255)
+bind.TextSize = 14.000
+bind.TextWrapped = true
+
+tracer.Name = "tracer"
+tracer.Parent = ElementBox_2
+tracer.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+tracer.BorderColor3 = Color3.fromRGB(29, 29, 29)
+tracer.Position = UDim2.new(0.0180995483, 0, 0.457627118, 0)
+tracer.Size = UDim2.new(0, 15, 0, 16)
+tracer.AutoButtonColor = false
+tracer.Font = Enum.Font.SourceSans
+tracer.Text = ""
+tracer.TextColor3 = Color3.fromRGB(0, 0, 0)
+tracer.TextSize = 14.000
+
+ToggleName_2.Name = "ToggleName"
+ToggleName_2.Parent = tracer
+ToggleName_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_2.BackgroundTransparency = 1.000
+ToggleName_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_2.BorderSizePixel = 0
+ToggleName_2.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_2.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_2.Font = Enum.Font.SourceSans
+ToggleName_2.Text = "show tracers"
+ToggleName_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_2.TextSize = 14.000
+ToggleName_2.TextXAlignment = Enum.TextXAlignment.Left
+
+ElementsPadding_2.Name = "ElementsPadding"
+ElementsPadding_2.Parent = ElementBox_2
+ElementsPadding_2.PaddingLeft = UDim.new(0, 8)
+
+UIListLayout_2.Parent = ElementBox_2
+UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_2.Padding = UDim.new(0, 5)
+
+fov.Name = "fov"
+fov.Parent = ElementBox_2
+fov.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+fov.BorderColor3 = Color3.fromRGB(29, 29, 29)
+fov.Position = UDim2.new(0.0180995483, 0, 0.118644066, 0)
+fov.Size = UDim2.new(0, 15, 0, 16)
+fov.AutoButtonColor = false
+fov.Font = Enum.Font.SourceSans
+fov.Text = ""
+fov.TextColor3 = Color3.fromRGB(0, 0, 0)
+fov.TextSize = 14.000
+
+ToggleName_3.Name = "ToggleName"
+ToggleName_3.Parent = fov
+ToggleName_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_3.BackgroundTransparency = 1.000
+ToggleName_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_3.BorderSizePixel = 0
+ToggleName_3.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_3.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_3.Font = Enum.Font.SourceSans
+ToggleName_3.Text = "fov outline"
+ToggleName_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_3.TextSize = 14.000
+ToggleName_3.TextXAlignment = Enum.TextXAlignment.Left
+
+autopred.Name = "autopred"
+autopred.Parent = ElementBox_2
+autopred.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+autopred.BorderColor3 = Color3.fromRGB(29, 29, 29)
+autopred.Position = UDim2.new(0.0180995483, 0, 0.457627118, 0)
+autopred.Size = UDim2.new(0, 15, 0, 16)
+autopred.AutoButtonColor = false
+autopred.Font = Enum.Font.SourceSans
+autopred.Text = ""
+autopred.TextColor3 = Color3.fromRGB(0, 0, 0)
+autopred.TextSize = 14.000
+
+ToggleName_4.Name = "ToggleName"
+ToggleName_4.Parent = autopred
+ToggleName_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_4.BackgroundTransparency = 1.000
+ToggleName_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_4.BorderSizePixel = 0
+ToggleName_4.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_4.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_4.Font = Enum.Font.SourceSans
+ToggleName_4.Text = "auto prediction"
+ToggleName_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_4.TextSize = 14.000
+ToggleName_4.TextXAlignment = Enum.TextXAlignment.Left
+
+usemousesenv.Name = "usemousesenv"
+usemousesenv.Parent = ElementBox_2
+usemousesenv.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+usemousesenv.BorderColor3 = Color3.fromRGB(29, 29, 29)
+usemousesenv.Position = UDim2.new(0.0180995483, 0, 0.457627118, 0)
+usemousesenv.Size = UDim2.new(0, 15, 0, 16)
+usemousesenv.AutoButtonColor = false
+usemousesenv.Font = Enum.Font.SourceSans
+usemousesenv.Text = ""
+usemousesenv.TextColor3 = Color3.fromRGB(0, 0, 0)
+usemousesenv.TextSize = 14.000
+
+ToggleName_5.Name = "ToggleName"
+ToggleName_5.Parent = usemousesenv
+ToggleName_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_5.BackgroundTransparency = 1.000
+ToggleName_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_5.BorderSizePixel = 0
+ToggleName_5.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_5.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_5.Font = Enum.Font.SourceSans
+ToggleName_5.Text = "use mouse senv"
+ToggleName_5.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_5.TextSize = 14.000
+ToggleName_5.TextXAlignment = Enum.TextXAlignment.Left
+
+UIGridLayout.Parent = ScrollingFrame
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.CellPadding = UDim2.new(0, 6, 0, 7)
+UIGridLayout.CellSize = UDim2.new(0, 260, 0, 110)
+UIGridLayout.FillDirectionMaxCells = 2
+
+OnHitBox.Name = "OnHitBox"
+OnHitBox.Parent = ScrollingFrame
+OnHitBox.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
+OnHitBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+OnHitBox.BorderSizePixel = 0
+OnHitBox.Position = UDim2.new(0.281904757, 0, -0.0294117648, 0)
+OnHitBox.Size = UDim2.new(0, 265, 0, 38)
+
+UICorner_3.Parent = OnHitBox
+
+BoxName_3.Name = "BoxName"
+BoxName_3.Parent = OnHitBox
+BoxName_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BoxName_3.BackgroundTransparency = 1.000
+BoxName_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+BoxName_3.BorderSizePixel = 0
+BoxName_3.Position = UDim2.new(0.0349344984, 0, -0.00881622359, 0)
+BoxName_3.Size = UDim2.new(0, 54, 0, 22)
+BoxName_3.Font = Enum.Font.SourceSans
+BoxName_3.Text = "onhit"
+BoxName_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+BoxName_3.TextSize = 17.000
+BoxName_3.TextXAlignment = Enum.TextXAlignment.Left
+
+ScrollingFrame_3.Parent = OnHitBox
+ScrollingFrame_3.Active = true
+ScrollingFrame_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ScrollingFrame_3.BackgroundTransparency = 1.000
+ScrollingFrame_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ScrollingFrame_3.BorderSizePixel = 0
+ScrollingFrame_3.Position = UDim2.new(0, 0, 0.197281688, 0)
+ScrollingFrame_3.Size = UDim2.new(0, 266, 0, 89)
+ScrollingFrame_3.ScrollBarThickness = 0
+
+ElementBox_3.Name = "ElementBox"
+ElementBox_3.Parent = ScrollingFrame_3
+ElementBox_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ElementBox_3.BackgroundTransparency = 1.000
+ElementBox_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ElementBox_3.BorderSizePixel = 0
+ElementBox_3.Position = UDim2.new(0, 0, -0.0188820586, 0)
+ElementBox_3.Size = UDim2.new(0, 229, 0, 144)
+
+ElementsPadding_3.Name = "ElementsPadding"
+ElementsPadding_3.Parent = ElementBox_3
+ElementsPadding_3.PaddingLeft = UDim.new(0, 8)
+
+UIListLayout_3.Parent = ElementBox_3
+UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_3.Padding = UDim.new(0, 5)
+
+skeleton.Name = "skeleton"
+skeleton.Parent = ElementBox_3
+skeleton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+skeleton.BorderColor3 = Color3.fromRGB(29, 29, 29)
+skeleton.Position = UDim2.new(0.0180995483, 0, 0.457627118, 0)
+skeleton.Size = UDim2.new(0, 15, 0, 16)
+skeleton.AutoButtonColor = false
+skeleton.Font = Enum.Font.SourceSans
+skeleton.Text = ""
+skeleton.TextColor3 = Color3.fromRGB(0, 0, 0)
+skeleton.TextSize = 14.000
+
+ToggleName_6.Name = "ToggleName"
+ToggleName_6.Parent = skeleton
+ToggleName_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_6.BackgroundTransparency = 1.000
+ToggleName_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_6.BorderSizePixel = 0
+ToggleName_6.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_6.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_6.Font = Enum.Font.SourceSans
+ToggleName_6.Text = "skeleton on hit"
+ToggleName_6.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_6.TextSize = 14.000
+ToggleName_6.TextXAlignment = Enum.TextXAlignment.Left
+
+chams.Name = "chams"
+chams.Parent = ElementBox_3
+chams.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+chams.BorderColor3 = Color3.fromRGB(29, 29, 29)
+chams.Position = UDim2.new(0.0180995483, 0, 0.457627118, 0)
+chams.Size = UDim2.new(0, 15, 0, 16)
+chams.AutoButtonColor = false
+chams.Font = Enum.Font.SourceSans
+chams.Text = ""
+chams.TextColor3 = Color3.fromRGB(0, 0, 0)
+chams.TextSize = 14.000
+
+ToggleName_7.Name = "ToggleName"
+ToggleName_7.Parent = chams
+ToggleName_7.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_7.BackgroundTransparency = 1.000
+ToggleName_7.BorderColor3 = Color3.fromRGB(0, 0, 0)
+ToggleName_7.BorderSizePixel = 0
+ToggleName_7.Position = UDim2.new(1.39999998, 0, 0, 0)
+ToggleName_7.Size = UDim2.new(0, 200, 0, 16)
+ToggleName_7.Font = Enum.Font.SourceSans
+ToggleName_7.Text = "chams on hit"
+ToggleName_7.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleName_7.TextSize = 14.000
+ToggleName_7.TextXAlignment = Enum.TextXAlignment.Left
+
+hitsound.Name = "hitsound"
+hitsound.Parent = ElementBox_3
+hitsound.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+hitsound.BorderColor3 = Color3.fromRGB(29, 29, 29)
+hitsound.Position = UDim2.new(0, 0, 0.291666657, 0)
+hitsound.Size = UDim2.new(0, 235, 0, 16)
+hitsound.Font = Enum.Font.SourceSans
+hitsound.PlaceholderText = "hitsound"
+hitsound.Text = ""
+hitsound.TextColor3 = Color3.fromRGB(255, 255, 255)
+hitsound.TextSize = 14.000
+hitsound.TextWrapped = true
+
+TitleLine.Name = "TitleLine"
+TitleLine.Parent = Body
+TitleLine.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TitleLine.BorderColor3 = Color3.fromRGB(57, 57, 57)
+TitleLine.BorderSizePixel = 0
+TitleLine.Position = UDim2.new(0.0171048883, 0, 0.0732648671, 0)
+TitleLine.Size = UDim2.new(0, 543, 0, 1)
+
+BodyUICorner.Name = "BodyUICorner"
+BodyUICorner.Parent = Body
+
+BodyPadding.Name = "BodyPadding"
+BodyPadding.Parent = Body
+BodyPadding.PaddingBottom = UDim.new(0, 5)
+BodyPadding.PaddingLeft = UDim.new(0, 5)
+BodyPadding.PaddingRight = UDim.new(0, 5)
+BodyPadding.PaddingTop = UDim.new(0, 5)
+
+Tabs.Name = "Tabs"
+Tabs.Parent = Body
+Tabs.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Tabs.BackgroundTransparency = 1.000
+Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Tabs.BorderSizePixel = 0
+Tabs.Position = UDim2.new(0.0171048883, 0, 0.0940860212, 0)
+Tabs.Size = UDim2.new(0, 542, 0, 16)
+
+UIListLayout_4.Parent = Tabs
+UIListLayout_4.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout_4.Padding = UDim.new(0, 6)
+
+aimbot.Name = "aimbot"
+aimbot.Parent = Tabs
+aimbot.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+aimbot.BackgroundTransparency = 1.000
+aimbot.BorderColor3 = Color3.fromRGB(0, 0, 0)
+aimbot.BorderSizePixel = 0
+aimbot.Position = UDim2.new(0.0221402217, 0, 0, 0)
+aimbot.Size = UDim2.new(0, 47, 0, 13)
+aimbot.AutoButtonColor = false
+aimbot.Font = Enum.Font.SourceSans
+aimbot.Text = "aim aissist"
+aimbot.TextColor3 = Color3.fromRGB(255, 255, 255)
+aimbot.TextSize = 14.000
+
+silentaim.Name = "silentaim"
+silentaim.Parent = Tabs
+silentaim.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+silentaim.BackgroundTransparency = 1.000
+silentaim.BorderColor3 = Color3.fromRGB(0, 0, 0)
+silentaim.BorderSizePixel = 0
+silentaim.Size = UDim2.new(0, 47, 0, 13)
+silentaim.AutoButtonColor = false
+silentaim.Font = Enum.Font.SourceSans
+silentaim.Text = "silent aim"
+silentaim.TextColor3 = Color3.fromRGB(144, 144, 144)
+silentaim.TextSize = 14.000
+
+render.Name = "render"
+render.Parent = Tabs
+render.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+render.BackgroundTransparency = 1.000
+render.BorderColor3 = Color3.fromRGB(0, 0, 0)
+render.BorderSizePixel = 0
+render.Position = UDim2.new(0.208487079, 0, 0, 0)
+render.Size = UDim2.new(0, 35, 0, 14)
+render.AutoButtonColor = false
+render.Font = Enum.Font.SourceSans
+render.Text = "render"
+render.TextColor3 = Color3.fromRGB(144, 144, 144)
+render.TextSize = 14.000
+
+misc.Name = "misc"
+misc.Parent = Tabs
+misc.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+misc.BackgroundTransparency = 1.000
+misc.BorderColor3 = Color3.fromRGB(0, 0, 0)
+misc.BorderSizePixel = 0
+misc.Position = UDim2.new(0.284132838, 0, 0, 0)
+misc.Size = UDim2.new(0, 28, 0, 14)
+misc.AutoButtonColor = false
+misc.Font = Enum.Font.SourceSans
+misc.Text = "misc"
+misc.TextColor3 = Color3.fromRGB(144, 144, 144)
+misc.TextSize = 14.000
+
+antiaim.Name = "antiaim"
+antiaim.Parent = Tabs
+antiaim.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+antiaim.BackgroundTransparency = 1.000
+antiaim.BorderColor3 = Color3.fromRGB(0, 0, 0)
+antiaim.BorderSizePixel = 0
+antiaim.Position = UDim2.new(0.346863478, 0, 0, 0)
+antiaim.Size = UDim2.new(0, 21, 0, 14)
+antiaim.AutoButtonColor = false
+antiaim.Font = Enum.Font.SourceSans
+antiaim.Text = "antiaim"
+antiaim.TextColor3 = Color3.fromRGB(144, 144, 144)
+antiaim.TextSize = 14.000
 
 Title.Name = "Title"
 Title.Parent = Body
-Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
 Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Title.BorderSizePixel = 0
-Title.Position = UDim2.new(-0.00365630724, 0, -0.00247524749, 0)
-Title.Size = UDim2.new(0, 548, 0, 23)
-Title.Font = Enum.Font.SourceSansBold
-Title.Text = "Tipware"
+Title.Position = UDim2.new(0.0171048883, 0, 0, 0)
+Title.Size = UDim2.new(0, 105, 0, 27)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "tipware"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 14.000
-Title.TextWrapped = true
+Title.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextXAlignment = Enum.TextXAlignment.Left
 
-UIPadding.Parent = Title
-UIPadding.PaddingBottom = UDim.new(0, 3)
-UIPadding.PaddingLeft = UDim.new(0, 7)
-UIPadding.PaddingRight = UDim.new(0, 3)
-UIPadding.PaddingTop = UDim.new(0, 3)
+SubTitle.Name = "SubTitle"
+SubTitle.Parent = Title
+SubTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SubTitle.BackgroundTransparency = 1.000
+SubTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SubTitle.BorderSizePixel = 0
+SubTitle.Position = UDim2.new(0.374987781, 0, 0, 0)
+SubTitle.Size = UDim2.new(0, 25, 0, 27)
+SubTitle.Font = Enum.Font.SourceSans
+SubTitle.Text = ".lua"
+SubTitle.TextColor3 = Color3.fromRGB(144, 144, 144)
+SubTitle.TextSize = 14.000
+SubTitle.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
 
-Title2.Name = "Title2"
-Title2.Parent = Title
-Title2.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-Title2.BackgroundTransparency = 1.000
-Title2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Title2.BorderSizePixel = 0
-Title2.Position = UDim2.new(0.0684238151, 0, -0.180470183, 0)
-Title2.Size = UDim2.new(0, 34, 0, 23)
-Title2.Font = Enum.Font.SourceSansBold
-Title2.Text = ".lua"
-Title2.TextColor3 = Color3.fromRGB(116, 130, 255)
-Title2.TextSize = 14.000
-Title2.TextWrapped = true
-Title2.TextXAlignment = Enum.TextXAlignment.Left
+SubNote.Name = "SubNote"
+SubNote.Parent = Body
+SubNote.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.BackgroundTransparency = 1.000
+SubNote.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SubNote.BorderSizePixel = 0
+SubNote.Position = UDim2.new(0.121047594, 0, -0.000102301332, 0)
+SubNote.Size = UDim2.new(0, 485, 0, 28)
+SubNote.Font = Enum.Font.SourceSans
+SubNote.Text = "Private"
+SubNote.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.TextSize = 15.000
+SubNote.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.TextWrapped = true
+SubNote.TextXAlignment = Enum.TextXAlignment.Right
 
-UIPadding_2.Parent = Title2
-UIPadding_2.PaddingBottom = UDim.new(0, 3)
-UIPadding_2.PaddingLeft = UDim.new(0, 7)
-UIPadding_2.PaddingRight = UDim.new(0, 3)
-UIPadding_2.PaddingTop = UDim.new(0, 3)
+UIScale.Parent = Body
 
-Outline2.Name = "Outline2"
-Outline2.Parent = Body
-Outline2.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Outline2.BorderColor3 = Color3.fromRGB(46, 46, 46)
-Outline2.Position = UDim2.new(0.0124636693, 0, 0.180693075, 0)
-Outline2.Size = UDim2.new(0, 533, 0, 319)
+local AimAissist = {
+	Enabled = false,
+	Prediction = 0,
+	Tracer = false,
+	FovOutline = false,
+	AutoPredictions = false,
+	UseMouseSenv = false,
+	
+	HitPart = "Head",
+	Smoothing = 0,
+	
+	SkeletonOnHit = false,
+	ChamsOnHit = false,
+}
 
-Outline3.Name = "Outline3"
-Outline3.Parent = Body
-Outline3.BackgroundColor3 = Color3.fromRGB(13, 13, 13)
-Outline3.BorderColor3 = Color3.fromRGB(46, 46, 46)
-Outline3.Position = UDim2.new(0.0261241626, 0, 0.198142931, 0)
-Outline3.Size = UDim2.new(0, 519, 0, 303)
+-- Functions
 
-TabBody.Name = "TabBody"
-TabBody.Parent = Body
-TabBody.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
-TabBody.BorderColor3 = Color3.fromRGB(50, 50, 50)
-TabBody.Position = UDim2.new(0.0109689217, 0, 0.0767326728, 0)
-TabBody.Size = UDim2.new(0, 533, 0, 33)
+-- Window
 
-RageTab.Name = "RageTab"
-RageTab.Parent = TabBody
-RageTab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RageTab.BackgroundTransparency = 1.000
-RageTab.BorderColor3 = Color3.fromRGB(0, 0, 0)
-RageTab.BorderSizePixel = 0
-RageTab.Position = UDim2.new(0, 0, 0.181818187, 0)
-RageTab.Size = UDim2.new(0, 110, 0, 27)
+local SubNoteText = {"aint gon fix mobile problem", "idk what to add", "eric", "Draxxco", "atzlazyblue", "Private"}
 
-TextLabel.Parent = RageTab
-TextLabel.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TextLabel.BorderColor3 = Color3.fromRGB(48, 48, 48)
-TextLabel.Position = UDim2.new(0.0480769239, 0, -0.303571433, 0)
-TextLabel.Size = UDim2.new(0, 103, 0, 27)
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "Rage"
-TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel.TextSize = 17.000
+while wait(0.5) do
+	local randomIndex = math.random(1, #SubNoteText)
+	SubNote.Text = SubNoteText[randomIndex]
+end
 
-UIPadding_3.Parent = RageTab
-UIPadding_3.PaddingBottom = UDim.new(0, 3)
-UIPadding_3.PaddingLeft = UDim.new(0, 3)
-UIPadding_3.PaddingRight = UDim.new(0, 3)
-UIPadding_3.PaddingTop = UDim.new(0, 3)
+Input.InputBegan:Connect(function(input, processed)
+    if not processed and input.KeyCode == Enum.KeyCode.V then
+        Library:Toggle()
+    end
+end)
 
-UIListLayout.Parent = TabBody
-UIListLayout.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Bottom
-UIListLayout.Padding = UDim.new(0, 1)
+-- Toggle Functions
 
-LegitTab.Name = "LegitTab"
-LegitTab.Parent = TabBody
-LegitTab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-LegitTab.BackgroundTransparency = 1.000
-LegitTab.BorderColor3 = Color3.fromRGB(0, 0, 0)
-LegitTab.BorderSizePixel = 0
-LegitTab.Position = UDim2.new(0, 0, 0.181818187, 0)
-LegitTab.Size = UDim2.new(0, 110, 0, 27)
+chams.MouseButton1Click:Connect(function()
+    if usemousesenv.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-TextLabel_2.Parent = LegitTab
-TextLabel_2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TextLabel_2.BorderColor3 = Color3.fromRGB(48, 48, 48)
-TextLabel_2.Position = UDim2.new(0.0480769239, 0, -0.303571433, 0)
-TextLabel_2.Size = UDim2.new(0, 103, 0, 27)
-TextLabel_2.Font = Enum.Font.SourceSans
-TextLabel_2.Text = "Legit"
-TextLabel_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_2.TextSize = 17.000
+skeleton.MouseButton1Click:Connect(function()
+    if usemousesenv.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-UIPadding_4.Parent = LegitTab
-UIPadding_4.PaddingBottom = UDim.new(0, 3)
-UIPadding_4.PaddingLeft = UDim.new(0, 3)
-UIPadding_4.PaddingRight = UDim.new(0, 3)
-UIPadding_4.PaddingTop = UDim.new(0, 3)
+enabled.MouseButton1Click:Connect(function()
+    if enabled.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        enabled.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        enabled.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-ESPTab.Name = "ESPTab"
-ESPTab.Parent = TabBody
-ESPTab.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-ESPTab.BackgroundTransparency = 1.000
-ESPTab.BorderColor3 = Color3.fromRGB(0, 0, 0)
-ESPTab.BorderSizePixel = 0
-ESPTab.Position = UDim2.new(0, 0, 0.181818187, 0)
-ESPTab.Size = UDim2.new(0, 110, 0, 27)
+pred.MouseButton1Click:Connect(function()
+    if pred.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        pred.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        pred.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-TextLabel_3.Parent = ESPTab
-TextLabel_3.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-TextLabel_3.BorderColor3 = Color3.fromRGB(48, 48, 48)
-TextLabel_3.Position = UDim2.new(0.0480769239, 0, -0.303571433, 0)
-TextLabel_3.Size = UDim2.new(0, 103, 0, 27)
-TextLabel_3.Font = Enum.Font.SourceSans
-TextLabel_3.Text = "ESP"
-TextLabel_3.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextLabel_3.TextSize = 17.000
+bind.MouseButton1Click:Connect(function()
+    if bind.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        bind.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        bind.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-UIPadding_5.Parent = ESPTab
-UIPadding_5.PaddingBottom = UDim.new(0, 3)
-UIPadding_5.PaddingLeft = UDim.new(0, 3)
-UIPadding_5.PaddingRight = UDim.new(0, 3)
-UIPadding_5.PaddingTop = UDim.new(0, 3)
+tracer.MouseButton1Click:Connect(function()
+    if tracer.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        tracer.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        tracer.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-LayoutItems.Name = "LayoutItems"
-LayoutItems.Parent = Body
-LayoutItems.Active = true
-LayoutItems.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-LayoutItems.BackgroundTransparency = 1.000
-LayoutItems.BorderColor3 = Color3.fromRGB(0, 0, 0)
-LayoutItems.BorderSizePixel = 0
-LayoutItems.Position = UDim2.new(0.0255941506, 0, 0.198142931, 0)
-LayoutItems.Size = UDim2.new(0, 519, 0, 302)
-LayoutItems.SizeConstraint = Enum.SizeConstraint.RelativeXX
-LayoutItems.ScrollBarThickness = 0
-LayoutItems.VerticalScrollBarPosition = Enum.VerticalScrollBarPosition.Left
+fov.MouseButton1Click:Connect(function()
+    if fov.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        fov.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        fov.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-ExampleSection.Name = "ExampleSection"
-ExampleSection.Parent = LayoutItems
-ExampleSection.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
-ExampleSection.BorderColor3 = Color3.fromRGB(36, 36, 36)
-ExampleSection.Position = UDim2.new(0.0346820801, 0, -0.0354609936, 0)
-ExampleSection.Size = UDim2.new(0, 238, 0, 279)
+autopred.MouseButton1Click:Connect(function()
+    if autopred.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        autopred.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        autopred.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-SectionTitle.Name = "SectionTitle"
-SectionTitle.Parent = ExampleSection
-SectionTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SectionTitle.BackgroundTransparency = 1.000
-SectionTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SectionTitle.BorderSizePixel = 0
-SectionTitle.Position = UDim2.new(-0.0580912866, 0, -0.0342437848, 0)
-SectionTitle.Size = UDim2.new(0, 77, 0, 18)
-SectionTitle.Font = Enum.Font.SourceSans
-SectionTitle.Text = "Rage"
-SectionTitle.TextColor3 = Color3.fromRGB(255, 255, 255)
-SectionTitle.TextSize = 19.000
-SectionTitle.TextWrapped = true
+usemousesenv.MouseButton1Click:Connect(function()
+    if usemousesenv.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    else
+        usemousesenv.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    end
+end)
 
-SectionScroll.Name = "SectionScroll"
-SectionScroll.Parent = ExampleSection
-SectionScroll.Active = true
-SectionScroll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SectionScroll.BackgroundTransparency = 1.000
-SectionScroll.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SectionScroll.BorderSizePixel = 0
-SectionScroll.Size = UDim2.new(0, 231, 0, 279)
-SectionScroll.ScrollBarThickness = 0
+-- Tabs Functions
 
-SectionItems.Name = "SectionItems"
-SectionItems.Parent = SectionScroll
-SectionItems.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SectionItems.BackgroundTransparency = 1.000
-SectionItems.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SectionItems.BorderSizePixel = 0
-SectionItems.Position = UDim2.new(0, 0, 0.0302723441, 0)
-SectionItems.Size = UDim2.new(0, 241, 0, 319)
+aimbot.MouseButton1Click:Connect(function()
+    if aimbot.TextColor3 == Color3.fromRGB(255, 255, 255) then
+        silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+    else
+        aimbot.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
 
-UIListLayout_2.Parent = SectionItems
-UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+silentaim.MouseButton1Click:Connect(function()
+    if silentaim.TextColor3 == Color3.fromRGB(255, 255, 255) then
+        aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+    else
+        silentaim.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
 
-Toggle.Name = "Toggle"
-Toggle.Parent = SectionItems
-Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Toggle.BackgroundTransparency = 1.000
-Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Toggle.BorderSizePixel = 0
-Toggle.Size = UDim2.new(0, 246, 0, 16)
+render.MouseButton1Click:Connect(function()
+    if render.TextColor3 == Color3.fromRGB(255, 255, 255) then
+        aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
+        silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+    else
+        render.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
 
-Name.Name = "Name"
-Name.Parent = Toggle
-Name.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Name.BackgroundTransparency = 1.000
-Name.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Name.BorderSizePixel = 0
-Name.Size = UDim2.new(0, 200, 0, 16)
-Name.Font = Enum.Font.SourceSans
-Name.Text = "Toggle"
-Name.TextColor3 = Color3.fromRGB(255, 255, 255)
-Name.TextSize = 14.000
-Name.TextXAlignment = Enum.TextXAlignment.Left
+misc.MouseButton1Click:Connect(function()
+    if misc.TextColor3 == Color3.fromRGB(255, 255, 255) then
+        aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
+        silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+    else
+        misc.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
 
-UIPadding_6.Parent = Toggle
-UIPadding_6.PaddingBottom = UDim.new(0, 5)
-UIPadding_6.PaddingLeft = UDim.new(0, 5)
-UIPadding_6.PaddingRight = UDim.new(0, 5)
-UIPadding_6.PaddingTop = UDim.new(0, 5)
+antiaim.MouseButton1Click:Connect(function()
+    if antiaim.TextColor3 == Color3.fromRGB(255, 255, 255) then
+        aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
+        silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
+	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+    else
+        antiaim.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
 
-State.Name = "State"
-State.Parent = Toggle
-State.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-State.BackgroundTransparency = 1.000
-State.BorderColor3 = Color3.fromRGB(0, 0, 0)
-State.BorderSizePixel = 0
-State.Position = UDim2.new(0.800847173, 0, 0, 0)
-State.Size = UDim2.new(0, 42, 0, 16)
-State.Font = Enum.Font.SourceSans
-State.Text = "OFF"
-State.TextColor3 = Color3.fromRGB(255, 255, 255)
-State.TextSize = 14.000
-
-Textbox.Name = "Textbox"
-Textbox.Parent = SectionItems
-Textbox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Textbox.BackgroundTransparency = 1.000
-Textbox.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Textbox.BorderSizePixel = 0
-Textbox.Size = UDim2.new(0, 246, 0, 16)
-
-Name_2.Name = "Name"
-Name_2.Parent = Textbox
-Name_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Name_2.BackgroundTransparency = 1.000
-Name_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Name_2.BorderSizePixel = 0
-Name_2.Position = UDim2.new(0, 0, 1.16666663, 0)
-Name_2.Size = UDim2.new(0, 200, 0, 16)
-Name_2.Font = Enum.Font.SourceSans
-Name_2.Text = "Textbox"
-Name_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-Name_2.TextSize = 14.000
-Name_2.TextXAlignment = Enum.TextXAlignment.Left
-
-UIPadding_7.Parent = Textbox
-UIPadding_7.PaddingBottom = UDim.new(0, 5)
-UIPadding_7.PaddingLeft = UDim.new(0, 5)
-UIPadding_7.PaddingRight = UDim.new(0, 5)
-UIPadding_7.PaddingTop = UDim.new(0, 5)
-
-Value.Name = "Value"
-Value.Parent = Textbox
-Value.BackgroundColor3 = Color3.fromRGB(33, 33, 33)
-Value.BorderColor3 = Color3.fromRGB(21, 21, 21)
-Value.Position = UDim2.new(0.618644059, 0, 1.16666663, 0)
-Value.Size = UDim2.new(0, 76, 0, 16)
-Value.Font = Enum.Font.SourceSans
-Value.PlaceholderText = "Amount"
-Value.Text = ""
-Value.TextColor3 = Color3.fromRGB(255, 255, 255)
-Value.TextSize = 14.000
-Value.TextWrapped = true
-Value.TextXAlignment = Enum.TextXAlignment.Left
-
-UIPadding_8.Parent = Value
-UIPadding_8.PaddingBottom = UDim.new(0, 3)
-UIPadding_8.PaddingLeft = UDim.new(0, 3)
-UIPadding_8.PaddingRight = UDim.new(0, 3)
-UIPadding_8.PaddingTop = UDim.new(0, 3)
-
-Keybind.Name = "Keybind"
-Keybind.Parent = SectionItems
-Keybind.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Keybind.BackgroundTransparency = 1.000
-Keybind.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Keybind.BorderSizePixel = 0
-Keybind.Size = UDim2.new(0, 246, 0, 16)
-
-Name_3.Name = "Name"
-Name_3.Parent = Keybind
-Name_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Name_3.BackgroundTransparency = 1.000
-Name_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Name_3.BorderSizePixel = 0
-Name_3.Position = UDim2.new(0, 0, 9.5, 0)
-Name_3.Size = UDim2.new(0, 200, 0, 16)
-Name_3.Font = Enum.Font.SourceSans
-Name_3.Text = "Keybind"
-Name_3.TextColor3 = Color3.fromRGB(255, 255, 255)
-Name_3.TextSize = 14.000
-Name_3.TextXAlignment = Enum.TextXAlignment.Left
-
-UIPadding_9.Parent = Keybind
-UIPadding_9.PaddingBottom = UDim.new(0, 5)
-UIPadding_9.PaddingLeft = UDim.new(0, 5)
-UIPadding_9.PaddingRight = UDim.new(0, 5)
-UIPadding_9.PaddingTop = UDim.new(0, 5)
-
-State_2.Name = "State"
-State_2.Parent = Keybind
-State_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-State_2.BackgroundTransparency = 1.000
-State_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-State_2.BorderSizePixel = 0
-State_2.Position = UDim2.new(0.805084467, 0, 9.5, 0)
-State_2.Size = UDim2.new(0, 42, 0, 16)
-State_2.Font = Enum.Font.SourceSans
-State_2.Text = "Q"
-State_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-State_2.TextSize = 14.000
-
-UIPadding_10.Parent = SectionItems
-UIPadding_10.PaddingBottom = UDim.new(0, 5)
-UIPadding_10.PaddingLeft = UDim.new(0, 5)
-UIPadding_10.PaddingRight = UDim.new(0, 5)
-UIPadding_10.PaddingTop = UDim.new(0, 5)
-
-Silder.Name = "Silder"
-Silder.Parent = SectionItems
-Silder.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Silder.BackgroundTransparency = 1.000
-Silder.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Silder.BorderSizePixel = 0
-Silder.Size = UDim2.new(0, 246, 0, 16)
-
-Name_4.Name = "Name"
-Name_4.Parent = Silder
-Name_4.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Name_4.BackgroundTransparency = 1.000
-Name_4.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Name_4.BorderSizePixel = 0
-Name_4.Position = UDim2.new(0, 0, -0.333333343, 0)
-Name_4.Size = UDim2.new(0, 200, 0, 16)
-Name_4.Font = Enum.Font.SourceSans
-Name_4.Text = "Silder"
-Name_4.TextColor3 = Color3.fromRGB(255, 255, 255)
-Name_4.TextSize = 14.000
-Name_4.TextXAlignment = Enum.TextXAlignment.Left
-
-UIPadding_11.Parent = Silder
-UIPadding_11.PaddingBottom = UDim.new(0, 5)
-UIPadding_11.PaddingLeft = UDim.new(0, 5)
-UIPadding_11.PaddingRight = UDim.new(0, 5)
-UIPadding_11.PaddingTop = UDim.new(0, 5)
-
-AmntBackground.Name = "AmntBackground"
-AmntBackground.Parent = Silder
-AmntBackground.BackgroundColor3 = Color3.fromRGB(34, 34, 34)
-AmntBackground.BorderColor3 = Color3.fromRGB(0, 0, 0)
-AmntBackground.BorderSizePixel = 0
-AmntBackground.Position = UDim2.new(0, 0, 4, 0)
-AmntBackground.Size = UDim2.new(0, 222, 0, 8)
-
-AmntProgress.Name = "AmntProgress"
-AmntProgress.Parent = AmntBackground
-AmntProgress.BackgroundColor3 = Color3.fromRGB(116, 130, 255)
-AmntProgress.BorderColor3 = Color3.fromRGB(0, 0, 0)
-AmntProgress.BorderSizePixel = 0
-AmntProgress.Size = UDim2.new(0, 7, 0, 8)
-
-Default.Name = "Default"
-Default.Parent = Silder
-Default.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Default.BackgroundTransparency = 1.000
-Default.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Default.BorderSizePixel = 0
-Default.Position = UDim2.new(0.826271176, 0, -0.333333343, 0)
-Default.Size = UDim2.new(0, 31, 0, 16)
-Default.Font = Enum.Font.SourceSans
-Default.Text = "0"
-Default.TextColor3 = Color3.fromRGB(255, 255, 255)
-Default.TextSize = 14.000
-
-HItPartSection.Name = "HItPartSection"
-HItPartSection.Parent = LayoutItems
-HItPartSection.BackgroundColor3 = Color3.fromRGB(17, 17, 17)
-HItPartSection.BorderColor3 = Color3.fromRGB(36, 36, 36)
-HItPartSection.Position = UDim2.new(0.524084806, 0, 0, 0)
-HItPartSection.Size = UDim2.new(0, 238, 0, 279)
-
-SectionTitle_2.Name = "SectionTitle"
-SectionTitle_2.Parent = HItPartSection
-SectionTitle_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SectionTitle_2.BackgroundTransparency = 1.000
-SectionTitle_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SectionTitle_2.BorderSizePixel = 0
-SectionTitle_2.Position = UDim2.new(-0.00346951536, 0, -0.0342437848, 0)
-SectionTitle_2.Size = UDim2.new(0, 77, 0, 18)
-SectionTitle_2.Font = Enum.Font.SourceSans
-SectionTitle_2.Text = "Rage Bone"
-SectionTitle_2.TextColor3 = Color3.fromRGB(255, 255, 255)
-SectionTitle_2.TextSize = 19.000
-SectionTitle_2.TextWrapped = true
-
-SectionItems_2.Name = "SectionItems"
-SectionItems_2.Parent = HItPartSection
-SectionItems_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SectionItems_2.BackgroundTransparency = 1.000
-SectionItems_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SectionItems_2.BorderSizePixel = 0
-SectionItems_2.Position = UDim2.new(-0.0207468886, 0, 0.0286738351, 0)
-SectionItems_2.Size = UDim2.new(0, 246, 0, 279)
-
-UIPadding_12.Parent = SectionItems_2
-UIPadding_12.PaddingBottom = UDim.new(0, 5)
-UIPadding_12.PaddingLeft = UDim.new(0, 5)
-UIPadding_12.PaddingRight = UDim.new(0, 5)
-UIPadding_12.PaddingTop = UDim.new(0, 5)
-
-Head.Name = "Head"
-Head.Parent = SectionItems_2
-Head.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Head.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Head.Position = UDim2.new(0.398305088, 0, 0.0780669153, 0)
-Head.Size = UDim2.new(0, 48, 0, 46)
-
-Torso.Name = "Torso"
-Torso.Parent = SectionItems_2
-Torso.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Torso.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Torso.Position = UDim2.new(0.356407046, 0, 0.249070629, 0)
-Torso.Size = UDim2.new(0, 68, 0, 81)
-
-LeftArm.Name = "LeftArm"
-LeftArm.Parent = SectionItems_2
-LeftArm.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-LeftArm.BorderColor3 = Color3.fromRGB(0, 0, 0)
-LeftArm.Position = UDim2.new(0.246237546, 0, 0.249070629, 0)
-LeftArm.Size = UDim2.new(0, 26, 0, 90)
-
-LeftLeg.Name = "LeftLeg"
-LeftLeg.Parent = SectionItems_2
-LeftLeg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-LeftLeg.BorderColor3 = Color3.fromRGB(0, 0, 0)
-LeftLeg.Position = UDim2.new(0.356407046, 0, 0.631970286, 0)
-LeftLeg.Size = UDim2.new(0, 33, 0, 80)
-
-RightArm.Name = "RightArm"
-RightArm.Parent = SectionItems_2
-RightArm.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RightArm.BorderColor3 = Color3.fromRGB(0, 0, 0)
-RightArm.Position = UDim2.new(0.644542634, 0, 0.249070629, 0)
-RightArm.Size = UDim2.new(0, 26, 0, 90)
-
-RightLeg.Name = "RightLeg"
-RightLeg.Parent = SectionItems_2
-RightLeg.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-RightLeg.BorderColor3 = Color3.fromRGB(0, 0, 0)
-RightLeg.Position = UDim2.new(0.504712105, 0, 0.631970286, 0)
-RightLeg.Size = UDim2.new(0, 33, 0, 80)
-
-Pelvis.Name = "Pelvis"
-Pelvis.Parent = SectionItems_2
-Pelvis.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Pelvis.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Pelvis.Position = UDim2.new(0.356407046, 0, 0.550185859, 0)
-Pelvis.Size = UDim2.new(0, 68, 0, 22)
-
-UIPadding_13.Parent = LayoutItems
-UIPadding_13.PaddingBottom = UDim.new(0, 10)
-UIPadding_13.PaddingTop = UDim.new(0, 10)
-
-UIListLayout_3.Parent = LayoutItems
-UIListLayout_3.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout_3.HorizontalAlignment = Enum.HorizontalAlignment.Center
-UIListLayout_3.SortOrder = Enum.SortOrder.LayoutOrder
-UIListLayout_3.Padding = UDim.new(0, 7)
-
-Outline.Name = "Outline"
-Outline.Parent = Body
-Outline.BackgroundColor3 = Color3.fromRGB(38, 38, 38)
-Outline.BorderColor3 = Color3.fromRGB(30, 30, 30)
-Outline.Position = UDim2.new(0, 0, 0.0544554442, 0)
-Outline.Size = UDim2.new(0, 547, 0, 1)
-
-Status.Name = "Status"
-Status.Parent = Body
-Status.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-Status.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Status.BorderSizePixel = 0
-Status.Position = UDim2.new(0.912248611, 0, -0.00495049497, 0)
-Status.Size = UDim2.new(0, 47, 0, 23)
-Status.Font = Enum.Font.SourceSansBold
-Status.Text = "Private"
-Status.TextColor3 = Color3.fromRGB(255, 255, 255)
-Status.TextSize = 14.000
-Status.TextWrapped = true
-
-UIPadding_14.Parent = Status
-UIPadding_14.PaddingBottom = UDim.new(0, 3)
-UIPadding_14.PaddingLeft = UDim.new(0, 7)
-UIPadding_14.PaddingRight = UDim.new(0, 3)
-UIPadding_14.PaddingTop = UDim.new(0, 3)
+-- RunService Functions
