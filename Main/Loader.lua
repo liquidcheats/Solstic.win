@@ -1,7 +1,3 @@
-local Library = {}
-
-local TipwareVersion = "v1.1A."
-
 local TweenService = game:GetService("TweenService")
 local input = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
@@ -82,22 +78,6 @@ local function MobileDragify(frame, time)
     frame.InputEnded:Connect(function(input)
         dragStart = nil
     end)
-end
-
-function Library:Toggle()
-    local CoreGui = game:GetService("CoreGui")
-    local TipwareGui = CoreGui:FindFirstChild("Tipware")
-    if TipwareGui == nil then return end
-    
-    TipwareGui.Enabled = not TipwareGui.Enabled
-end
-
-function Library:Unload()
-    local CoreGui = game:GetService("CoreGui")
-    local TipwareGui = CoreGui:FindFirstChild("Tipware")
-    if TipwareGui then
-        TipwareGui:Destroy()
-    end
 end
 
 local Loader = Instance.new("ScreenGui")
@@ -289,3 +269,14 @@ GameImageLabel.Position = UDim2.new(0.180514678, 0, 0.397613227, 0)
 GameImageLabel.Size = UDim2.new(0, 83, 0, 80)
 GameImageLabel.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
 
+load.MouseButton1Click:Connect(function()
+    -- load something
+end)
+
+exit.MouseButton1Click:Connect(function()
+    local CoreGui = game:GetService("CoreGui")
+    local LoaderUI = CoreGui:FindFirstChild("Tipware")
+    if LoaderUI then
+        TipwareGui:Destroy()
+    end
+end)
