@@ -1,5 +1,109 @@
+local Library = {}
+
+local TipwareVersion = "v1.1A."
+
+local TweenService = game:GetService("TweenService")
+local input = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer.PlayerGui
+local Mouse = LocalPlayer:GetMouse()
+
+local function Dragify(frame, parent)
+
+    parent = parent or frame
+
+    local dragging = false
+    local dragInput, mousePos, framePos
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            mousePos = input.Position
+            framePos = parent.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    input.InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            local delta = input.Position - mousePos
+            parent.Position  = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+        end
+    end)
+end
+
+local function easeOutCubic(t, b, c, d)
+    t = t / d - 1
+    return c * (t * t * t + 1) + b
+end
+
+local function MobileDragify(frame, time)
+    local dragStart = nil
+    local startPos = nil
+    local startTime = nil
+
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.Touch then
+            dragStart = input.Position
+            startPos = frame.Position
+            startTime = tick()
+        end
+    end)
+
+    frame.InputChanged:Connect(function(input)
+        if dragStart then
+            local delta = input.Position - dragStart
+            local elapsedTime = tick() - startTime
+            local easingFactor = easeOutCubic(math.min(elapsedTime / time, 1), 0, 1, 1)
+
+            frame.Position = UDim2.new(
+                startPos.X.Scale,
+                startPos.X.Offset + delta.X * easingFactor,
+                startPos.Y.Scale,
+                startPos.Y.Offset + delta.Y * easingFactor
+            )
+        end
+    end)
+
+    frame.InputEnded:Connect(function(input)
+        dragStart = nil
+    end)
+end
+
+function Library:Toggle()
+    local CoreGui = game:GetService("CoreGui")
+    local TipwareGui = CoreGui:FindFirstChild("Tipware")
+    if TipwareGui == nil then return end
+    
+    TipwareGui.Enabled = not TipwareGui.Enabled
+end
+
+function Library:Unload()
+    local CoreGui = game:GetService("CoreGui")
+    local TipwareGui = CoreGui:FindFirstChild("Tipware")
+    if TipwareGui then
+        TipwareGui:Destroy()
+    end
+end
+
 local Loader = Instance.new("ScreenGui")
 local LoaderBody = Instance.new("Frame")
+Dragify(LoaderBody, LoaderBody)
+MobileDragify(LoaderBody, 0.6)
 local info = Instance.new("Frame")
 local UICorner = Instance.new("UICorner")
 local infotitle = Instance.new("TextLabel")
@@ -184,3 +288,4 @@ GameImageLabel.BorderSizePixel = 0
 GameImageLabel.Position = UDim2.new(0.180514678, 0, 0.397613227, 0)
 GameImageLabel.Size = UDim2.new(0, 83, 0, 80)
 GameImageLabel.Image = "rbxasset://textures/ui/GuiImagePlaceholder.png"
+
