@@ -3,7 +3,7 @@ local Library = {}
 local TipwareVersion = "v1.1A."
 
 local TweenService = game:GetService("TweenService")
-local input = game:GetService("UserInputService")
+local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
 local Lighting = game:GetService("Lighting")
 local Players = game:GetService("Players")
@@ -12,9 +12,7 @@ local PlayerGui = LocalPlayer.PlayerGui
 local Mouse = LocalPlayer:GetMouse()
 
 local function Dragify(frame, parent)
-
     parent = parent or frame
-
     local dragging = false
     local dragInput, mousePos, framePos
 
@@ -38,10 +36,15 @@ local function Dragify(frame, parent)
         end
     end)
 
-    input.InputChanged:Connect(function(input)
+    UserInputService.InputChanged:Connect(function(input)
         if input == dragInput and dragging then
             local delta = input.Position - mousePos
-            parent.Position  = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+            parent.Position = UDim2.new(
+                framePos.X.Scale,
+                framePos.X.Offset + delta.X,
+                framePos.Y.Scale,
+                framePos.Y.Offset + delta.Y
+            )
         end
     end)
 end
@@ -80,14 +83,16 @@ local function MobileDragify(frame, time)
     end)
 
     frame.InputEnded:Connect(function(input)
-        dragStart = nil
+        if input.UserInputType == Enum.UserInputType.Touch then
+            dragStart = nil
+        end
     end)
 end
 
 function Library:Toggle()
     local CoreGui = game:GetService("CoreGui")
     local TipwareGui = CoreGui:FindFirstChild("Tipware")
-    if TipwareGui == nil then return end
+    if not TipwareGui then return end
     
     TipwareGui.Enabled = not TipwareGui.Enabled
 end
@@ -104,10 +109,15 @@ local Tipware = Instance.new("ScreenGui")
 local Body = Instance.new("Frame")
 MobileDragify(Body, 0.6)
 Dragify(Body, Body)
+local Title = Instance.new("TextLabel")
+local SubTitle = Instance.new("TextLabel")
+local SubNote = Instance.new("TextLabel")
+
 local Elements = Instance.new("Frame")
 local ElementUICorner = Instance.new("UICorner")
 local ScrollingFrame = Instance.new("ScrollingFrame")
 local ElementPadding = Instance.new("UIPadding")
+
 local LeftBox = Instance.new("Frame")
 local LftBUIListLayout = Instance.new("UIListLayout")
 local main = Instance.new("Frame")
@@ -115,24 +125,10 @@ local UICorner = Instance.new("UICorner")
 local BoxName = Instance.new("TextLabel")
 local ScrollingFrame_2 = Instance.new("ScrollingFrame")
 local ElementBox = Instance.new("Frame")
+
 local ElementsPadding = Instance.new("UIPadding")
 local UIListLayout = Instance.new("UIListLayout")
-local enabledtoggle = Instance.new("TextButton")
-local ToggleName = Instance.new("TextLabel")
-local predictiontextbox = Instance.new("TextBox")
-local enableonmove = Instance.new("TextButton")
-local ToggleName_2 = Instance.new("TextLabel")
-local usemousesensitivity = Instance.new("TextButton")
-local ToggleName_3 = Instance.new("TextLabel")
-local customcalculation = Instance.new("TextButton")
-local ToggleName_4 = Instance.new("TextLabel")
-local autoprediction = Instance.new("TextButton")
-local ToggleName_5 = Instance.new("TextLabel")
-local smoothing = Instance.new("TextLabel")
-local SliderBackground = Instance.new("Frame")
-local TextButton = Instance.new("TextButton")
-local UICorner_2 = Instance.new("UICorner")
-local AmountNumber = Instance.new("TextLabel")
+
 local UIPadding = Instance.new("UIPadding")
 local RightBox = Instance.new("Frame")
 local TitleLine = Instance.new("Frame")
@@ -145,12 +141,32 @@ local silentaim = Instance.new("TextButton")
 local render = Instance.new("TextButton")
 local misc = Instance.new("TextButton")
 local antiaim = Instance.new("TextButton")
-local Title = Instance.new("TextLabel")
-local SubTitle = Instance.new("TextLabel")
-local SubNote = Instance.new("TextLabel")
+
+local enabledtoggle = Instance.new("TextButton")
+local ToggleName = Instance.new("TextLabel")
+
+local predictiontextbox = Instance.new("TextBox")
+
+local enableonmove = Instance.new("TextButton")
+local ToggleName_2 = Instance.new("TextLabel")
+
+local usemousesensitivity = Instance.new("TextButton")
+local ToggleName_3 = Instance.new("TextLabel")
+
+local customcalculation = Instance.new("TextButton")
+local ToggleName_4 = Instance.new("TextLabel")
+
+local autoprediction = Instance.new("TextButton")
+local ToggleName_5 = Instance.new("TextLabel")
+
+local smoothing = Instance.new("TextLabel")
+local SliderBackground = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+local UICorner_2 = Instance.new("UICorner")
+local AmountNumber = Instance.new("TextLabel")
 
 Tipware.Name = "Tipware"
-Tipware.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Tipware.Parent = game.CoreGui
 Tipware.DisplayOrder = 9999
 Tipware.ResetOnSpawn = false
 
@@ -180,6 +196,52 @@ ScrollingFrame.BorderSizePixel = 0
 ScrollingFrame.Position = UDim2.new(0, 0, -0.021428572, 0)
 ScrollingFrame.Size = UDim2.new(0, 537, 0, 292)
 ScrollingFrame.ScrollBarThickness = 0
+
+Title.Name = "Title"
+Title.Parent = Body
+Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Title.BackgroundTransparency = 1.000
+Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Title.BorderSizePixel = 0
+Title.Position = UDim2.new(0.0171048883, 0, 0, 0)
+Title.Size = UDim2.new(0, 105, 0, 27)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "tipware"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 14.000
+Title.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextXAlignment = Enum.TextXAlignment.Left
+
+SubTitle.Name = "SubTitle"
+SubTitle.Parent = Title
+SubTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SubTitle.BackgroundTransparency = 1.000
+SubTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SubTitle.BorderSizePixel = 0
+SubTitle.Position = UDim2.new(0.374987781, 0, 0, 0)
+SubTitle.Size = UDim2.new(0, 25, 0, 27)
+SubTitle.Font = Enum.Font.SourceSans
+SubTitle.Text = ".lua"
+SubTitle.TextColor3 = Color3.fromRGB(144, 144, 144)
+SubTitle.TextSize = 14.000
+SubTitle.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+
+SubNote.Name = "SubNote"
+SubNote.Parent = Body
+SubNote.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.BackgroundTransparency = 1.000
+SubNote.BorderColor3 = Color3.fromRGB(0, 0, 0)
+SubNote.BorderSizePixel = 0
+SubNote.Position = UDim2.new(0.121047594, 0, -0.00286473217, 0)
+SubNote.Size = UDim2.new(0, 485, 0, 28)
+SubNote.Font = Enum.Font.SourceSans
+SubNote.Text = "Private"
+SubNote.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.TextSize = 15.000
+SubNote.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+SubNote.TextWrapped = true
+SubNote.TextXAlignment = Enum.TextXAlignment.Right
 
 ElementPadding.Name = "ElementPadding"
 ElementPadding.Parent = ScrollingFrame
@@ -560,80 +622,59 @@ antiaim.Text = "antiaim"
 antiaim.TextColor3 = Color3.fromRGB(144, 144, 144)
 antiaim.TextSize = 14.000
 
-Title.Name = "Title"
-Title.Parent = Body
-Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-Title.BackgroundTransparency = 1.000
-Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-Title.BorderSizePixel = 0
-Title.Position = UDim2.new(0.0171048883, 0, 0, 0)
-Title.Size = UDim2.new(0, 105, 0, 27)
-Title.Font = Enum.Font.SourceSans
-Title.Text = "tipware"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 14.000
-Title.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextXAlignment = Enum.TextXAlignment.Left
-
-SubTitle.Name = "SubTitle"
-SubTitle.Parent = Title
-SubTitle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SubTitle.BackgroundTransparency = 1.000
-SubTitle.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SubTitle.BorderSizePixel = 0
-SubTitle.Position = UDim2.new(0.374987781, 0, 0, 0)
-SubTitle.Size = UDim2.new(0, 25, 0, 27)
-SubTitle.Font = Enum.Font.SourceSans
-SubTitle.Text = ".lua"
-SubTitle.TextColor3 = Color3.fromRGB(144, 144, 144)
-SubTitle.TextSize = 14.000
-SubTitle.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-SubTitle.TextXAlignment = Enum.TextXAlignment.Left
-
-SubNote.Name = "SubNote"
-SubNote.Parent = Body
-SubNote.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-SubNote.BackgroundTransparency = 1.000
-SubNote.BorderColor3 = Color3.fromRGB(0, 0, 0)
-SubNote.BorderSizePixel = 0
-SubNote.Position = UDim2.new(0.121047594, 0, -0.00286473217, 0)
-SubNote.Size = UDim2.new(0, 485, 0, 28)
-SubNote.Font = Enum.Font.SourceSans
-SubNote.Text = "Private"
-SubNote.TextColor3 = Color3.fromRGB(255, 255, 255)
-SubNote.TextSize = 15.000
-SubNote.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
-SubNote.TextWrapped = true
-SubNote.TextXAlignment = Enum.TextXAlignment.Right
-
 -- Functions
 
--- Window
+-- Toggle Functions
 
-local SubNoteText = {"aint gon fix mobile problem", "idk what to add", "eric", "Draxxco", "atzlazyblue", "Private"}
-
-while wait(0.5) do
-	local randomIndex = math.random(1, #SubNoteText)
-	SubNote.Text = SubNoteText[randomIndex]
-end
-
-Input.InputBegan:Connect(function(input, processed)
-    if not processed and input.KeyCode == Enum.KeyCode.V then
-        Library:Toggle()
+enabledtoggle.MouseButton1Click:Connect(function()
+    if enabledtoggle.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        enabledtoggle.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    else
+        enabledtoggle.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
     end
 end)
 
--- Toggle Functions
+enableonmove.MouseButton1Click:Connect(function()
+    if enableonmove.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        enableonmove.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    else
+        enableonmove.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    end
+end)
+
+usemousesensitivity.MouseButton1Click:Connect(function()
+    if usemousesensitivity.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        usemousesensitivity.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    else
+        usemousesensitivity.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    end
+end)
+
+customcalculation.MouseButton1Click:Connect(function()
+    if customcalculation.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        customcalculation.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    else
+        customcalculation.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    end
+end)
+
+autoprediction.MouseButton1Click:Connect(function()
+    if autoprediction.BackgroundColor3 == Color3.fromRGB(20, 20, 20) then
+        autoprediction.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    else
+        autoprediction.BackgroundColor3 = Color3.fromRGB(193, 154, 164)
+    end
+end)
 
 -- Tabs Functions
 
 aimbot.MouseButton1Click:Connect(function()
     if aimbot.TextColor3 == Color3.fromRGB(255, 255, 255) then
         silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-    else
+        render.TextColor3 = Color3.fromRGB(145, 145, 145)
+        misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+        antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+        
         aimbot.TextColor3 = Color3.fromRGB(255, 255, 255)
     end
 end)
@@ -641,10 +682,10 @@ end)
 silentaim.MouseButton1Click:Connect(function()
     if silentaim.TextColor3 == Color3.fromRGB(255, 255, 255) then
         aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-    else
+        render.TextColor3 = Color3.fromRGB(145, 145, 145)
+        misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+        antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+        
         silentaim.TextColor3 = Color3.fromRGB(255, 255, 255)
     end
 end)
@@ -653,9 +694,9 @@ render.MouseButton1Click:Connect(function()
     if render.TextColor3 == Color3.fromRGB(255, 255, 255) then
         aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
         silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-    else
+        misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+        antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+        
         render.TextColor3 = Color3.fromRGB(255, 255, 255)
     end
 end)
@@ -664,9 +705,9 @@ misc.MouseButton1Click:Connect(function()
     if misc.TextColor3 == Color3.fromRGB(255, 255, 255) then
         aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
         silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-    else
+        render.TextColor3 = Color3.fromRGB(145, 145, 145)
+        antiaim.TextColor3 = Color3.fromRGB(145, 145, 145)
+        
         misc.TextColor3 = Color3.fromRGB(255, 255, 255)
     end
 end)
@@ -675,9 +716,17 @@ antiaim.MouseButton1Click:Connect(function()
     if antiaim.TextColor3 == Color3.fromRGB(255, 255, 255) then
         aimbot.TextColor3 = Color3.fromRGB(145, 145, 145)
         silentaim.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    render.TextColor3 = Color3.fromRGB(145, 145, 145)
-	    misc.TextColor3 = Color3.fromRGB(145, 145, 145)
-    else
+        render.TextColor3 = Color3.fromRGB(145, 145, 145)
+        misc.TextColor3 = Color3.fromRGB(145, 145, 145)
+        
         antiaim.TextColor3 = Color3.fromRGB(255, 255, 255)
+    end
+end)
+
+-- Window
+
+UserInputService.InputBegan:Connect(function(input, processed)
+    if not processed and input.UserInputType == Enum.UserInputType.Keyboard and input.KeyCode == Enum.KeyCode.V then
+        Library:Toggle()
     end
 end)
