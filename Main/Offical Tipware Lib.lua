@@ -374,30 +374,27 @@ Library.Sections.__index = Library.Sections;
 
 -- // Functions
     --// Mobile Support Functions
-    do
-		local function MobileDragify(frame)
-		    local dragStart = nil
-		    local startPos = nil
-		
-		    frame.InputBegan:Connect(function(input)
-		        if input.UserInputType == Enum.UserInputType.Touch then
-		            dragStart = input.Position
-		            startPos = frame.Position
-		        end
-		    end)
-		
-		    frame.InputChanged:Connect(function(input)
-		        if dragStart then
-		            local delta = input.Position - dragStart
-		            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-		        end
-		    end)
-		
-		    frame.InputEnded:Connect(function(input)
-		        dragStart = nil
-		    end)
-		end
-		--
+	local function MobileDragify(frame)
+	    local dragStart = nil
+	    local startPos = nil
+	
+	    frame.InputBegan:Connect(function(input)
+	        if input.UserInputType == Enum.UserInputType.Touch then
+	            dragStart = input.Position
+	            startPos = frame.Position
+	        end
+	    end)
+	
+	    frame.InputChanged:Connect(function(input)
+	        if dragStart then
+	            local delta = input.Position - dragStart
+	            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	        end
+	    end)
+	
+	    frame.InputEnded:Connect(function(input)
+	        dragStart = nil
+	    end)
 	end
 	-- // Library Functions
 	do
